@@ -1,9 +1,9 @@
 import java.sql.*;
 
 public class ConnectionFactory {
-    public static final String URL = "jdbc:postgresql://localhost:5432/birthdaysdb";
-    public static final String USER = "birthdaysuser";
-    public static final String PASS = "birthdayspass";
+    private static final String URL = "jdbc:mariadb://192.168.1.60:3306/birthdays";
+    private static final String USER = "birthdaysuser";
+    private static final String PASS = "birthdayspass";
 
     /**
      * Get a connection to database
@@ -20,13 +20,11 @@ public class ConnectionFactory {
     /**
      * Test Connection
      */
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Connection connection = ConnectionFactory.getConnection();
-        PreparedStatement ps = connection.prepareStatement(
-                "SELECT * FROM persons"
-        );
+    public static void main(String[] args) throws SQLException {
+        Person person = new Person("Petr", "Petrov", "Petrov@gmail.com", "1990-08-16");
+        CRUD.createPerson("Griwa", "Griwkovec", "griwa@gmail.com", "1990-08-16");
+        //CRUD.deletePerson(BigInteger.valueOf(3));
 
-        ps.execute();
     }
 }
 
@@ -39,5 +37,3 @@ public class ConnectionFactory {
 //        " dateOfBirth DATE NOT NULL\n" +
 //        ");
 //
-//    INSERT INTO persons(person_id, name, surname, email, dateOfBirth) VALUES (" +
-//        "'1', 'Griwa', 'Griwkovec', 'griwa@gmail.com', '12-03-1990')

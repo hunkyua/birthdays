@@ -1,23 +1,22 @@
-import java.util.Date;
 
 public class Person {
     private Long id;
     private String name;
     private String surname;
     private String email;
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     Person() {
     }
 
-    Person(String name, String surname, String email, Date dateOfBirth) {
+    Person(String name, String surname, String email, String dateOfBirth) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Person(Long id, String name, String surname, String email, Date dateOfBirth) {
+    public Person(Long id, String name, String surname, String email, String dateOfBirth) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -49,11 +48,11 @@ public class Person {
         this.email = email;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setdateOfBirth(Date dateOfBirth) {
+    public void setdateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }
