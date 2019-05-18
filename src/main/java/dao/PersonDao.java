@@ -1,3 +1,7 @@
+package dao;
+
+import domain.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +10,7 @@ public class PersonDao implements Dao<Person> {
 
     private List<Person> persons = new ArrayList<>();
 
-    public PersonDao() {
+    PersonDao() {
         persons.add(new Person());
     }
 
