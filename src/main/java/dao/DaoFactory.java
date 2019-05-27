@@ -1,16 +1,13 @@
 package dao;
 
 import domain.Person;
+import domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class DaoFactory {
@@ -37,17 +34,11 @@ public class DaoFactory {
         return new DaoFactory();
     }
 
-    /**
-     * Test Connection
-     */
     public static void main(String[] args) throws DAOException {
-        CRUD crud = new CRUD();
-        //PersonDao person = new PersonDao();
+        UserCRUD userCRUD = new UserCRUD();
         Person person = new Person("Petr", "Petrov", "Petrov@gmail.com", "1990-08-16");
-        //crud.createPerson("Griwa", "Griwkovec", "griwa@gmail.com", "1990-08-16");
-        //crud.deletePersonById(BigInteger.valueOf(24));
-        printPersons(crud.getAllPersons());
-
+        User user = new User("test", "test");
+        userCRUD.createUser(user.getLogin(), user.getPassword());
     }
 
     public static void printPersons(List<Person> personList) {

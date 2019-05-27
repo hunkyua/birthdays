@@ -20,7 +20,7 @@ public class CRUD {
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to create a person");
+            LOGGER.info("Trying to create person");
             ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, name);
             ps.setString(2, surname);
