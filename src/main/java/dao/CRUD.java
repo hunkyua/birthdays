@@ -9,38 +9,33 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CRUD {
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 
-    public void createPerson(String name, String surname, String email, String dateOfBirth) throws DAOException {
-        String sql = "INSERT INTO persons(name, surname, email, dateOfBirth) VALUES (?, ?, ?, ?)";
+    public void createPerson(Person person) throws DAOException {
+        if (person.getUserID() == 0) {
+            return;
+        }
+        String sql = "INSERT INTO persons(Name, Surname, Email, DateOfBirth, UserID) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
             LOGGER.info("Trying to create person");
-            ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, name);
-            ps.setString(2, surname);
-            ps.setString(3, email);
-            ps.setDate(4, Date.valueOf(dateOfBirth));
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, person.getName());
+            ps.setString(2, person.getSurname());
+            ps.setString(3, person.getEmail());
+            ps.setDate(4, Date.valueOf(person.getDateOfBirth()));
+            ps.setLong(5, person.getUserID());
             ps.execute();
             LOGGER.info("Person created");
         } catch (SQLException e) {
-                LOGGER.error("Connect unsuccessfully");
-                e.printStackTrace();
+            LOGGER.error("Connect unsuccessfully");
+            e.printStackTrace();
         } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                    LOGGER.info("Prepare statement was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Prepare statement wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
+            daoFactory.closePrepareStatement(ps);
         }
 
 
@@ -60,15 +55,7 @@ public class CRUD {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();
         } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                    LOGGER.info("Prepare statement was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Prepare statement wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
+            daoFactory.closePrepareStatement(ps);
         }
     }
 
@@ -86,15 +73,7 @@ public class CRUD {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();
         } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                    LOGGER.info("Prepare statement was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Prepare statement wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
+            daoFactory.closePrepareStatement(ps);
         }
     }
 
@@ -112,41 +91,25 @@ public class CRUD {
             ps.executeQuery();
             rs = ps.getResultSet();
             while (rs.next()) {
-               person = new Person(
-                       rs.getLong("person_id"),
-                       rs.getString("name"),
-                       rs.getString("surname"),
-                       rs.getString("email"),
-                       rs.getString("dateOfBirth")
-                       );
-               persons.add(person);
+                person = new Person(
+                        rs.getLong("PersonID"),
+                        rs.getString("Name"),
+                        rs.getString("Surname"),
+                        rs.getString("Email"),
+                        rs.getString("DateOfBirth"),
+                        rs.getInt("UsersID")
+                );
+                persons.add(person);
             }
             LOGGER.info("All persons selected");
         } catch (SQLException e) {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                    LOGGER.info("Result set was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Result set wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                    LOGGER.info("Prepare statement was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Prepare statement wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
+            daoFactory.closeResultSet(rs);
+            daoFactory.closePrepareStatement(ps);
         }
         return persons;
     }
-
 
 }

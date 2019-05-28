@@ -1,67 +1,54 @@
 package dao;
 
+import domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.sql.*;
 
+import java.sql.*;
 
 class UserCRUD {
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 
-    void createUser(String login, String password) {
-        createTableForNewUser(login);
-        setPrivilegesOnTableInDB(login, password);
-    }
-
-    private void createTableForNewUser(String login) {
-        String sql = "CREATE TABLE " + login + " (person_id serial PRIMARY KEY, name VARCHAR (50) NOT NULL, " +
-                "surname VARCHAR (50) NOT NULL, email VARCHAR (355), dateOfBirth DATE NOT NULL)";
+    void createUser(User user) {
+        String sql = "INSERT INTO users(Login, Password) VALUES (?, ?)";
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to create table four user : " + login);
-            ps = connection.prepareStatement(sql);
+            LOGGER.info("Trying to create user : " + user.getLogin());
+            int userID = Statement.RETURN_GENERATED_KEYS;
+            ps = connection.prepareStatement(sql, userID);
+            ps.setString(1, user.getLogin());
+            ps.setString(2, user.getPassword());
             ps.execute();
-            LOGGER.info("Table created");
+            LOGGER.info("User was created");
         } catch (SQLException e) {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();
         } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                    LOGGER.info("Prepare statement was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Prepare statement wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
+            daoFactory.closePrepareStatement(ps);
         }
     }
 
-    private void setPrivilegesOnTableInDB(String login, String password) {
-        String sql = "GRANT ALL PRIVILEGES ON birthdays." + login + " TO '" + login + "'@'%' IDENTIFIED BY '" + password + "'";
+    int getUserID(User user) {
+        String sql = "SELECT UserID FROM birthdays.users WHERE Login =" + "'" + user.getLogin() + "'";
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to setPrivileges for user : " + login);
-            ps = connection.prepareStatement(sql);
-            ps.execute();
-            LOGGER.info("Privileges set");
+            LOGGER.info("Trying to get userID by " + user.getLogin());
+            ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.executeQuery();
+            LOGGER.info("UserID is " + rs.getString("UserID"));
+            return rs.getInt("UserID");
         } catch (SQLException e) {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();
         } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                    LOGGER.info("Prepare statement was closed");
-                } catch (SQLException e) {
-                    LOGGER.error("Prepare statement wasn't closed", e);
-                    e.printStackTrace();
-                }
-            }
+            daoFactory.closeResultSet(rs);
+            daoFactory.closePrepareStatement(ps);
         }
+        return 0;
     }
+
 }

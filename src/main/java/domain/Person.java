@@ -1,25 +1,27 @@
 package domain;
 
 public class Person {
-    private Long id;
+    private Long personID;
     private String name;
     private String surname;
     private String email;
     private String dateOfBirth;
+    private int userID;
 
     public Person() {
     }
 
-    public Person(String name, String surname, String email, String dateOfBirth) {
+    public Person(String name, String surname, String email, String dateOfBirth, int userID) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
+        this.userID = userID;
     }
 
-    public Person(Long id, String name, String surname, String email, String dateOfBirth) {
-        this(name, surname, email, dateOfBirth);
-        this.id = id;
+    public Person(Long personID, String name, String surname, String email, String dateOfBirth, int userID) {
+        this(name, surname, email, dateOfBirth, userID);
+        this.personID = personID;
     }
 
     public String getName() {
@@ -54,7 +56,12 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPersonID() {
+        return personID;
     }
+
+    public int getUserID() {
+        return userID;
+    }
+
 }
