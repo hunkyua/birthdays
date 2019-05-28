@@ -2,10 +2,11 @@
 <html>
   <head>
     <title>Birthdays</title>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
   </head>
   <body>
-  <h1 style="text-align: center; color: darkorange"> Welcome to the Hunkyua Birthdays Page ;)</h1>
-  <p style="font-weight: bold; text-align: center">Fill the form for add a new Person</p>
+  <h1> Welcome to the Hunkyua Birthdays Page ;)</h1>
+  <p>Fill the form for add a new Person</p>
   <form style="text-align: center" action="birthdays" method="post">
     <input type="text" name="name" placeholder="Name" required>
     <br>

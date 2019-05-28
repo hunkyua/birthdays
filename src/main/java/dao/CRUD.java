@@ -97,7 +97,7 @@ public class CRUD {
                         rs.getString("Surname"),
                         rs.getString("Email"),
                         rs.getString("DateOfBirth"),
-                        rs.getInt("UsersID")
+                        rs.getInt("UserID")
                 );
                 persons.add(person);
             }

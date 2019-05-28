@@ -37,10 +37,12 @@ class UserCRUD {
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
             LOGGER.info("Trying to get userID by " + user.getLogin());
-            ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.executeQuery();
-            LOGGER.info("UserID is " + rs.getString("UserID"));
-            return rs.getInt("UserID");
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                LOGGER.info("UserID is " + rs.getInt("UserID"));
+                return rs.getInt("UserID");
+            }
         } catch (SQLException e) {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();

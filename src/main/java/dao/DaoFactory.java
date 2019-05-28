@@ -39,13 +39,14 @@ public class DaoFactory {
 //        db.prepareDB();
 
         UserCRUD userCRUD = new UserCRUD();
-        User user = new User("test2", "test");
-        //userCRUD.createUser(user);
+        User user = new User("test", "test");
+       // userCRUD.createUser(user);
         user.setUserID(userCRUD.getUserID(user));
 
         Person person = new Person("Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", user.getUserID());
         CRUD crud = new CRUD();
         crud.createPerson(person);
+        printPersons(crud.getAllPersons());
     }
 
     public static void printPersons(List<Person> personList) {
