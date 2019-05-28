@@ -11,3 +11,16 @@ p {
 form {
     text-align: center;
 }
+
+.login {
+    background: blanchedalmond;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
