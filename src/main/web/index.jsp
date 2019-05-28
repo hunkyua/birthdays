@@ -7,14 +7,13 @@
   <body>
   <h1> Welcome to the Hunkyua Birthdays Page ;)</h1>
   <p>Fill the form for add a new Person</p>
-  <form style="text-align: center" action="birthdays" method="post">
+  <form action="birthdays" method="post">
     <input type="text" name="name" placeholder="Name" required>
     <br>
     <input type="text" name="surname" placeholder="Surname" required>
     <br>
     <input type="text" name="email" placeholder="Email">
     <br>
-<%--    <label>Date of birth</label>--%>
     <select name="day" class="datefield day" required>
       <option value="">Day</option>
       <option value="1">1</option>

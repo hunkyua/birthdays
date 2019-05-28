@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Calendar;
 
-@WebServlet("/birthdays")
+@WebServlet("/login")
 public class BirthdaysServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
