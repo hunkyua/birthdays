@@ -1,12 +1,15 @@
 package dao;
 
-import domain.Person;
-import domain.User;
+import model.Person;
+import model.ROLE;
+import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.List;
+
+import static model.ROLE.*;
 
 public class DaoFactory {
     private static final String URL = "jdbc:mariadb://91.200.232.73:3306/birthdays";
@@ -23,6 +26,11 @@ public class DaoFactory {
     public Connection getConnection() {
         try {
             LOGGER.info("Try connect to database");
+            try {
+                Class.forName("org.mariadb.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             return DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException ex) {
             throw new RuntimeException("Error connection to the database", ex);
@@ -34,19 +42,28 @@ public class DaoFactory {
     }
 
     public static void main(String[] args) throws DAOException {
-//        DB db = new DB();
-//        db.dropDB();
-//        db.prepareDB();
+        DB db = new DB();
+        db.dropDB();
+        db.prepareDB();
 
-        UserCRUD userCRUD = new UserCRUD();
-        User user = new User("test", "test");
-       // userCRUD.createUser(user);
-        user.setUserID(userCRUD.getUserID(user));
+        User admin = new User("admin", "admin", ROLE.ADMIN);
+        User user = new User("user", "user", ROLE.USER);
+        User unknown = new User("unknown", "unknown", UNKNOWN);
+        UserDAO userDAO = new UserDAO();
+        userDAO.createUser(admin);
+        userDAO.createUser(user);
+        userDAO.createUser(unknown);
 
-        Person person = new Person("Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", user.getUserID());
-        CRUD crud = new CRUD();
-        crud.createPerson(person);
-        printPersons(crud.getAllPersons());
+
+//        UserCRUD userCRUD = new UserCRUD();
+//        User user = new User("test", "test");
+//       // userCRUD.createUser(user);
+//        user.setUserID(userCRUD.getUserID(user));
+//
+//        Person person = new Person("Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", user.getUserID());
+//        CRUD crud = new CRUD();
+//        crud.createPerson(person);
+//        printPersons(crud.getAllPersons());
     }
 
     public static void printPersons(List<Person> personList) {

@@ -1,0 +1,26 @@
+h1 {
+    text-align: center;
+    color: darkorange;
+}
+
+p {
+    text-align: center;
+    font-weight: bold;
+}
+
+form {
+    text-align: center;
+}
+
+.login {
+    background: blanchedalmond;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
