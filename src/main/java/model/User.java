@@ -1,10 +1,12 @@
 package model;
 
+import static model.ROLE.UNKNOWN;
+
 public class User {
     private int userID;
-    private String login;
-    private String password;
-    private ROLE role;
+    private String login = "";
+    private String password = "";
+    private ROLE role = UNKNOWN;
 
     public User() {
 

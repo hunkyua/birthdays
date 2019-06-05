@@ -2,12 +2,15 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>ADMIN</title>
-    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <title>Birthdays</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
-<h1>Hello ADMIN</h1>
+<body class="admin_menu">
+<h1>Hello <c:out value="${login}"/></h1>
+<div class="menu">
+<a href="addPerson.jsp">Add Person</a><br><br><br>
 <a href="logout">Logout</a>
+</div>
 </body>
 <footer> Hunky_UA </br> Copyright © 2019</footer>
 </html>

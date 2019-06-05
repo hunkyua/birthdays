@@ -3,18 +3,26 @@
 <html>
 <head>
     <title>Birthdays</title>
-    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/script.js"></script>
 </head>
-<body class="login">
+<body class="registration">
 <div class="form">
-    <h1>Welcome to Birthdays App :)</h1>
-    <form action="login" method="post">
+    <h1>Welcome to registration on Birthdays App :)</h1>
+    <form action="registration" method="post">
         <input type="text" name="login" placeholder="login" required><br>
         <input type="text" name="password" placeholder="password" required> <br>
-        <input type="submit" value="Register">
         <input type="submit" value="Enter">
     </form>
 </div>
+
+<br><br>
+
+<div class="back">
+    <a href="../birthdays">
+        <button>Go Back</button>
+    </a>
+</div>
 </body>
-<footer> Hunky_UA </br> Copyright © 2019</footer>
+<footer> Hunky_UA <br> Copyright © 2019</footer>
 </html>

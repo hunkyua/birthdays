@@ -12,8 +12,28 @@ form {
     text-align: center;
 }
 
+.back {
+    text-align: center;
+}
+
 .login {
     background: blanchedalmond;
+}
+
+.registration {
+    background: blanchedalmond;
+}
+
+.menu{
+    text-align: center;
+}
+
+.user_menu{
+    background: blanchedalmond;
+}
+
+.admin_menu{
+    background: #7cff15;
 }
 
 footer {

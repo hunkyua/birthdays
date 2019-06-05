@@ -12,7 +12,7 @@
 
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
-        <url-pattern>/login</url-pattern>
+        <url-pattern>/birthdays</url-pattern>
     </filter-mapping>
 
     <!--Logout servlet-->

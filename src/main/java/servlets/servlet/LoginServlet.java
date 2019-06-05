@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/login")
+@WebServlet("/birthdays")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
             rd.forward(request, response);
         } else {
             out.append("<h2 style=\"text-align:center;color:red\">Sorry Login or Password are Wrong!</h2>");
-            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/birthdays.jsp");
             rd.include(request, response);
         }
     }

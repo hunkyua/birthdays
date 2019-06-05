@@ -13,6 +13,10 @@ public class UserDAO {
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 
+    public UserDAO() {
+
+    }
+
     private final List<User> store = new ArrayList<>();
 
     public User getUserById(int userID) {
@@ -105,7 +109,7 @@ public class UserDAO {
 
     public boolean createUser(final User user) {
         User u = getUserByLogin(user.getLogin());
-        if (u.getLogin() != null) {
+        if (!u.getLogin().isEmpty()) {
             return false;
         }
         String sql = "INSERT INTO users(Login, Password, Role) VALUES (?, ?, ?)";

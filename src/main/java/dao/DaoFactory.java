@@ -12,7 +12,7 @@ import java.util.List;
 import static model.ROLE.*;
 
 public class DaoFactory {
-    private static final String URL = "jdbc:mariadb://91.200.232.73:3306/birthdays";
+    private static final String URL = "jdbc:mariadb://91.200.232.73:3333/birthdays";
     private static final String USER = "birthdaysuser";
     private static final String PASS = "birthdayspass";
 

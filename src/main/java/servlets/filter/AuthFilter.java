@@ -28,13 +28,12 @@ public class AuthFilter implements Filter {
         final String login = req.getParameter("login");
         final String password = req.getParameter("password");
 
-        @SuppressWarnings("unchecked")
-        final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
+        @SuppressWarnings("unchecked") final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
 
         final HttpSession session = req.getSession();
 
         //Logged user.
-        if (nonNull(session) && session.getAttribute("login") != null && session.getAttribute("password")  != null) {
+        if (nonNull(session) && session.getAttribute("login") != null && session.getAttribute("password") != null) {
 
             final ROLE role = (ROLE) session.getAttribute("role");
 
@@ -49,9 +48,8 @@ public class AuthFilter implements Filter {
             req.getSession().setAttribute("role", role);
 
             moveToMenu(req, res, role);
-
         } else {
-            moveToMenu(req, res, UNKNOWN);
+           moveToMenu(req, res, UNKNOWN);
         }
     }
 
@@ -66,7 +64,7 @@ public class AuthFilter implements Filter {
         } else if (role.equals(USER)) {
             req.getRequestDispatcher("/user_menu.jsp").forward(req, res);
         } else {
-            req.getRequestDispatcher("/login.jsp").forward(req, res);
+            req.getRequestDispatcher("/birthdays.jsp").forward(req, res);
         }
     }
 

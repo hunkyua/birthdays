@@ -3,10 +3,11 @@
 <html>
   <head>
     <title>Birthdays</title>
-    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type = "text/javascript" src="js/script.js" ></script>
   </head>
   <body>
-  <h1> Welcome to the Hunkyua Birthdays Page ;)</h1>
+  <h1> Welcome to Birthdays App ;)</h1>
   <p>Fill the form for add a new Person</p>
   <form action="birthday" method="post">
     <input type="text" name="name" placeholder="Name" required>
@@ -190,5 +191,9 @@
     <br>
     <input type="submit" value="Submit">
   </form>
+
+  <br><br>
+
+  <div class="back" ><button onclick="goBack()">Go Back</button></div>
   </body>
 </html>

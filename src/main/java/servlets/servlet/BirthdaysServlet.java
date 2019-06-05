@@ -1,6 +1,5 @@
 package servlets.servlet;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,7 @@ public class BirthdaysServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("addPerson.jsp").forward(request, response);
         String name = request.getParameter("name");
         name = name == null? "" : name.replaceAll("<", "&lt;").replaceAll(">","&gt;");
         String surname = request.getParameter("surname");
