@@ -19,8 +19,8 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         dao = new AtomicReference<>(new UserDAO());
-       // dao.get().createUser(new User("admin", "admin", ADMIN ));
-       // dao.get().createUser(new User("user", "user", USER ));
+        //dao.get().createUser(new User("admin", "admin", ADMIN ));
+        //dao.get().createUser(new User("user", "user", USER ));
 
         final ServletContext servletContext = sce.getServletContext();
 
