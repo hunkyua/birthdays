@@ -1,15 +1,12 @@
 package servlets.servlet;
 
 import dao.UserDAO;
-import model.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static model.ROLE.*;
 
 @WebListener
 public class ContextListener implements ServletContextListener {

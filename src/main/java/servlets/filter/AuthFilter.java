@@ -1,7 +1,8 @@
 package servlets.filter;
 
-import model.ROLE;
 import dao.UserDAO;
+import model.ROLE;
+import model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static model.ROLE.*;
 import static java.util.Objects.nonNull;
+import static model.ROLE.UNKNOWN;
 
 public class AuthFilter implements Filter {
 
@@ -29,26 +30,28 @@ public class AuthFilter implements Filter {
         final String password = req.getParameter("password");
 
         @SuppressWarnings("unchecked") final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
+        UserDAO userDAO = dao.get();
+        User user = userDAO.getUserByLoginPassword(login,password);
+        boolean isUserExist = dao.get().isUserExist(login, password);
 
         final HttpSession session = req.getSession();
 
         //Logged user.
-        if (nonNull(session) && session.getAttribute("login") != null && session.getAttribute("password") != null) {
-
+        if (nonNull(session) && session.getAttribute("login") != null && (session.getAttribute("password") != null )) {
             final ROLE role = (ROLE) session.getAttribute("role");
-
             moveToMenu(req, res, role);
-
-        } else if (dao != null && dao.get().userIsExist(login, password)) {
-
-            final ROLE role = dao.get().getRoleByLoginPassword(login, password);
-
+        } else if (isUserExist) {
+            final ROLE role = userDAO.getUserRoleByLoginPassword(login, password);
             req.getSession().setAttribute("password", password);
             req.getSession().setAttribute("login", login);
             req.getSession().setAttribute("role", role);
+            req.getSession().setAttribute("userID", userDAO.getUserId(user));
 
             moveToMenu(req, res, role);
         } else {
+            if (login != null && password != null) {
+                req.setAttribute("Error", "Account doesn't exist");
+            }
            moveToMenu(req, res, UNKNOWN);
         }
     }
@@ -59,12 +62,15 @@ public class AuthFilter implements Filter {
      * If access 'user' move to user menu.
      */
     private void moveToMenu(final HttpServletRequest req, final HttpServletResponse res, final ROLE role) throws ServletException, IOException {
-        if (role.equals(ADMIN)) {
-            req.getRequestDispatcher("/admin_menu.jsp").forward(req, res);
-        } else if (role.equals(USER)) {
-            req.getRequestDispatcher("/user_menu.jsp").forward(req, res);
-        } else {
-            req.getRequestDispatcher("/birthdays.jsp").forward(req, res);
+        switch (role) {
+            case ADMIN:
+                req.getRequestDispatcher("/admin_menu.jsp").forward(req, res);
+                break;
+            case USER:
+                req.getRequestDispatcher("/user_menu.jsp").forward(req, res);
+                break;
+            default:
+                req.getRequestDispatcher("/birthdays.jsp").forward(req, res);
         }
     }
 

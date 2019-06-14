@@ -43,7 +43,7 @@ class DB {
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to create table persons");
+            LOGGER.info("Trying to addPerson table persons");
             ps = connection.prepareStatement(CREATE_PERSONS);
             ps.execute();
             LOGGER.info("Table \"persons\" was created");
@@ -59,7 +59,7 @@ class DB {
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to create table users");
+            LOGGER.info("Trying to addPerson table users");
             ps = connection.prepareStatement(CREATE_USERS);
             ps.execute();
             LOGGER.info("Table \"users\" was created");

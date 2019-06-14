@@ -25,4 +25,12 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AddPersonServlet</servlet-name>
+        <servlet-class>servlets.servlet.AddPersonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddPersonServlet</servlet-name>
+        <url-pattern>/addperson</url-pattern>
+    </servlet-mapping>
 </web-app>

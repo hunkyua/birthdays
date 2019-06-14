@@ -23,7 +23,7 @@ public class DaoFactory {
      *
      * @return Connection object
      */
-    public Connection getConnection() {
+    Connection getConnection() {
         try {
             LOGGER.info("Try connect to database");
             try {
@@ -37,7 +37,7 @@ public class DaoFactory {
         }
     }
 
-    public static DaoFactory getInstance() {
+    static DaoFactory getInstance() {
         return new DaoFactory();
     }
 
@@ -57,7 +57,7 @@ public class DaoFactory {
 
 //        UserCRUD userCRUD = new UserCRUD();
 //        User user = new User("test", "test");
-//       // userCRUD.createUser(user);
+//        userCRUD.createUser(user);
 //        user.setUserID(userCRUD.getUserID(user));
 //
 //        Person person = new Person("Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", user.getUserID());
@@ -77,7 +77,7 @@ public class DaoFactory {
         ));
     }
 
-    protected void closePrepareStatement(PreparedStatement ps) {
+    void closePrepareStatement(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
@@ -89,7 +89,7 @@ public class DaoFactory {
         }
     }
 
-    public void closeResultSet(ResultSet rs) {
+    void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();

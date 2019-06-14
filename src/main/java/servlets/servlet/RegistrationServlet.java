@@ -28,7 +28,7 @@ public class RegistrationServlet extends HttpServlet {
         login = login == null ? "" : login.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         password = password == null ? "" : password.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-        boolean isUserExist = userDAO.userIsExist(login, password);
+        boolean isUserExist = userDAO.isUserExist(login, password);
 
         if (isUserExist) {
             out.append("<h2 style=\"text-align:center;color:red\">Sorry Login is already exist!</h2>");

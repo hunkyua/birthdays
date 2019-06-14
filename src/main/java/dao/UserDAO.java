@@ -6,8 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAO {
     private DaoFactory daoFactory = DaoFactory.getInstance();
@@ -16,8 +14,6 @@ public class UserDAO {
     public UserDAO() {
 
     }
-
-    private final List<User> store = new ArrayList<>();
 
     public User getUserById(int userID) {
         User result = new User();
@@ -116,7 +112,7 @@ public class UserDAO {
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to create user : " + user.getLogin());
+            LOGGER.info("Trying to addPerson user : " + user.getLogin());
             int userID = Statement.RETURN_GENERATED_KEYS;
             ps = connection.prepareStatement(sql, userID);
             ps.setString(1, user.getLogin());
@@ -134,7 +130,7 @@ public class UserDAO {
         return true;
     }
 
-    public ROLE getRoleByLoginPassword(final String login, final String password) {
+    public ROLE getUserRoleByLoginPassword(final String login, final String password) {
         ROLE result = ROLE.UNKNOWN;
         User user = getUserByLoginPassword(login, password);
         if (user.getRole() != null) {
@@ -143,7 +139,7 @@ public class UserDAO {
         return result;
     }
 
-    public boolean userIsExist(final String login, final String password) {
+    public boolean isUserExist(final String login, final String password) {
         User user = getUserByLoginPassword(login, password);
 
         if (user.getLogin() == null || user.getPassword() == null) {
@@ -151,7 +147,29 @@ public class UserDAO {
         }
 
         return user.getLogin().equals(login) && user.getPassword().equals(password);
-
     }
 
+
+    public int getUserId(User user) {
+        String sql = "SELECT UserID FROM birthdays.users WHERE Login =" + "'" + user.getLogin() + "'";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try (Connection connection = daoFactory.getConnection()) {
+            LOGGER.info("Connect successful");
+            LOGGER.info("Trying to get userID by " + user.getLogin());
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                LOGGER.info("UserID is " + rs.getInt("UserID"));
+                return rs.getInt("UserID");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Connect unsuccessfully");
+            e.printStackTrace();
+        } finally {
+            daoFactory.closeResultSet(rs);
+            daoFactory.closePrepareStatement(ps);
+        }
+        return 0;
+    }
 }

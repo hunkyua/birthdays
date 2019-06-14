@@ -6,13 +6,14 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="login">
-    <h1>Sign In Form</h1>
     <div id="wrapper">
+        <h1>Sign In Form</h1>
         <form id="signin" method="post" action="birthdays" autocomplete="off">
-            <input type="text" id="login" name="login" placeholder="login" />
-            <input type="password" id="password" name="password" placeholder="password" />
+            <input type="text" id="login" name="login" placeholder="login" required/>
+            <input type="password" id="password" name="password" placeholder="password" required/>
             <button type="submit">&#xf0da;</button>
             <p>Don't have an account?<a href="../registration">click here</a></p>
+            <p class="error"><c:out value="${Error}"/></p>
         </form>
     </div>
 </body>
