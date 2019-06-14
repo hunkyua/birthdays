@@ -15,8 +15,8 @@
         <input type="submit" value="Enter">
     </form>
 </div>
+<p class="error"><c:out value="${Error}"/></p>
 <br><br>
-
 <div class="back">
     <a href="../birthdays">
         <button>Go Back</button>

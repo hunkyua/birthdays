@@ -44,16 +44,16 @@ public class UserDAO {
         return result;
     }
 
-    private User getUserByLogin(final String login) {
+    public User getUserByLoginPassword(final String login, final String password) {
         User result = new User();
         result.setUserID(-1);
 
-        String sql = "SELECT * FROM birthdays.users WHERE Login =" + "'" + login + "'";
+        String sql = "SELECT * FROM birthdays.users WHERE Login =" + "'" + login + "'" + " AND Password =" + "'" + password + "'";
         PreparedStatement ps = null;
         ResultSet rs = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
-            LOGGER.info("Trying to get user by login : " + login);
+            LOGGER.info("Trying to get user by login : " + login + " and password : ***");
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -74,38 +74,8 @@ public class UserDAO {
         return result;
     }
 
-    public User getUserByLoginPassword(final String login, final String password) {
-        User result = new User();
-        result.setUserID(-1);
-
-        String sql = "SELECT * FROM birthdays.users WHERE Login =" + "'" + login + "'" + " AND Password =" + "'" + password + "'";
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to get user by login : " + login + " and password : ***");
-            ps = connection.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                result.setUserID(rs.getInt("UserID"));
-                result.setLogin(rs.getString("Login"));
-                result.setPassword(rs.getString("Password"));
-                result.setRole(ROLE.getRoleByNumber(rs.getInt("Role")));
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closeResultSet(rs);
-            daoFactory.closePrepareStatement(ps);
-        }
-
-        return result;
-    }
-
     public void createUser(final User user) {
-        User u = getUserByLogin(user.getLogin());
-        if (!u.getLogin().isEmpty()) {
+        if (user.getLogin().isEmpty()) {
             return;
         }
         String sql = "INSERT INTO users(Login, Password, Role) VALUES (?, ?, ?)";
@@ -127,15 +97,6 @@ public class UserDAO {
             daoFactory.closePrepareStatement(ps);
         }
 
-    }
-
-    public ROLE getUserRoleByLoginPassword(final String login, final String password) {
-        ROLE result = ROLE.UNKNOWN;
-        User user = getUserByLoginPassword(login, password);
-        if (user.getRole() != null) {
-            result = user.getRole();
-        }
-        return result;
     }
 
     public int getUserId(User user) {
@@ -160,4 +121,35 @@ public class UserDAO {
         }
         return 0;
     }
+
+//    private User getUserByLogin(final String login) {
+//        User result = new User();
+//        result.setUserID(-1);
+//
+//        String sql = "SELECT * FROM birthdays.users WHERE Login =" + "'" + login + "'";
+//        PreparedStatement ps = null;
+//        ResultSet rs = null;
+//        try (Connection connection = daoFactory.getConnection()) {
+//            LOGGER.info("Connect successful");
+//            LOGGER.info("Trying to get user by login : " + login);
+//            ps = connection.prepareStatement(sql);
+//            rs = ps.executeQuery();
+//            if (rs.next()) {
+//                result.setUserID(rs.getInt("UserID"));
+//                result.setLogin(rs.getString("Login"));
+//                result.setPassword(rs.getString("Password"));
+//                result.setRole(ROLE.getRoleByNumber(rs.getInt("Role")));
+//                LOGGER.info("User login is " + result.getLogin());
+//            }
+//        } catch (SQLException e) {
+//            LOGGER.error("Connect unsuccessfully");
+//            e.printStackTrace();
+//        } finally {
+//            daoFactory.closeResultSet(rs);
+//            daoFactory.closePrepareStatement(ps);
+//        }
+//
+//        return result;
+//    }
+
 }

@@ -37,11 +37,13 @@ public class AuthFilter implements Filter {
         final HttpSession session = req.getSession();
 
         //Logged user.
-        if (nonNull(session) && session.getAttribute("login") != null && (session.getAttribute("password") != null )) {
+        if (nonNull(session) &&
+                (session.getAttribute("login") == login && session.getAttribute("login") != null) &&
+                (session.getAttribute("password") == password && session.getAttribute("password") != null)) {
             final ROLE role = (ROLE) session.getAttribute("role");
             moveToMenu(req, res, role);
         } else if (isUserExist) {
-            final ROLE role = userDAO.getUserRoleByLoginPassword(login, password);
+            final ROLE role = user.getUserRole();
             req.getSession().setAttribute("password", password);
             req.getSession().setAttribute("login", login);
             req.getSession().setAttribute("role", role);
@@ -73,7 +75,6 @@ public class AuthFilter implements Filter {
                 req.getRequestDispatcher("/birthdays.jsp").forward(req, res);
         }
     }
-
 
     @Override
     public void destroy() {

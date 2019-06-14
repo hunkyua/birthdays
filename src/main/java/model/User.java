@@ -58,6 +58,14 @@ public class User {
 
         return user.getLogin().equals(login) && user.getPassword().equals(password);
     }
+
+    public ROLE getUserRole() {
+        if (role != null) {
+            return role;
+        }
+        return ROLE.UNKNOWN;
+    }
+
 }
 
 
