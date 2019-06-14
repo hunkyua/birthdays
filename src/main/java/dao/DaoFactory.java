@@ -1,15 +1,11 @@
 package dao;
 
 import model.Person;
-import model.ROLE;
-import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.List;
-
-import static model.ROLE.*;
 
 public class DaoFactory {
     private static final String URL = "jdbc:mariadb://91.200.232.73:3333/birthdays";
@@ -42,17 +38,17 @@ public class DaoFactory {
     }
 
     public static void main(String[] args) throws DAOException {
-        DB db = new DB();
-        db.dropDB();
-        db.prepareDB();
+        //DB db = new DB();
+        //db.dropDB();
+        //db.prepareDB();
 
-        User admin = new User("admin", "admin", ROLE.ADMIN);
-        User user = new User("user", "user", ROLE.USER);
-        User unknown = new User("unknown", "unknown", UNKNOWN);
-        UserDAO userDAO = new UserDAO();
-        userDAO.createUser(admin);
-        userDAO.createUser(user);
-        userDAO.createUser(unknown);
+        //User admin = new User("admin", "admin", ROLE.ADMIN);
+        //User user = new User("user", "user", ROLE.USER);
+        //User unknown = new User("unknown", "unknown", UNKNOWN);
+        //UserDAO userDAO = new UserDAO();
+        //userDAO.createUser(admin);
+        //userDAO.createUser(user);
+        //userDAO.createUser(unknown);
 
 
 //        UserCRUD userCRUD = new UserCRUD();

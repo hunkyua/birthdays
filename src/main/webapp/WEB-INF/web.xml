@@ -33,4 +33,13 @@
         <servlet-name>AddPersonServlet</servlet-name>
         <url-pattern>/addperson</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ListOfPersonsServlet</servlet-name>
+        <servlet-class>servlets.servlet.ListOfPersonsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListOfPersonsServlet</servlet-name>
+        <url-pattern>/listofpersons</url-pattern>
+    </servlet-mapping>
 </web-app>

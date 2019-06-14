@@ -32,7 +32,7 @@ public class AuthFilter implements Filter {
         @SuppressWarnings("unchecked") final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
         UserDAO userDAO = dao.get();
         User user = userDAO.getUserByLoginPassword(login,password);
-        boolean isUserExist = dao.get().isUserExist(login, password);
+        boolean isUserExist = user.isUserExist(user);
 
         final HttpSession session = req.getSession();
 
@@ -45,7 +45,7 @@ public class AuthFilter implements Filter {
             req.getSession().setAttribute("password", password);
             req.getSession().setAttribute("login", login);
             req.getSession().setAttribute("role", role);
-            req.getSession().setAttribute("userID", userDAO.getUserId(user));
+            req.getSession().setAttribute("userID", user.getUserID());
 
             moveToMenu(req, res, role);
         } else {

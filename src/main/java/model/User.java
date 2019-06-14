@@ -50,6 +50,14 @@ public class User {
         this.role = role;
     }
 
+    public boolean isUserExist(User user) {
+        if ((user.getLogin() == null || user.getLogin().isEmpty()) &&
+                (user.getPassword() == null || user.getPassword().isEmpty())) {
+            return false;
+        }
+
+        return user.getLogin().equals(login) && user.getPassword().equals(password);
+    }
 }
 
 

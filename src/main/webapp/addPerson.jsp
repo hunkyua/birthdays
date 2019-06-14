@@ -8,8 +8,7 @@
     <script type = "text/javascript" src="js/jquery.js" ></script>
   </head>
   <body>
-  <h1> Welcome to Birthdays App ;)</h1>
-  <%--<p class="addPersonText">Fill the form for addPerson a new Person</p>--%>
+  <p class="addPersonText">Fill the form for addPerson a new Person</p>
   <form id="addPerson" action="addperson" method="post">
     <input class="name" type="text" name="name" placeholder="Name" required><br>
     <input class="surname" type="text" name="surname" placeholder="Surname" required><br>

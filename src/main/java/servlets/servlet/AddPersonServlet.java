@@ -52,8 +52,6 @@ public class AddPersonServlet extends HttpServlet {
         req.getRequestDispatcher("/addPerson.jsp").forward(req, res);
     }
 
-
-    // Method to handle POST method request.
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);

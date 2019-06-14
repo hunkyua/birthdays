@@ -62,7 +62,7 @@ public class PersonDAO {
         return 0;
     }
 
-    public List<Person> getAllPersons() throws DAOException {
+    public List<Person> getAllPersons() {
         String sql = "SELECT * FROM persons";
         List<Person> persons = new ArrayList<>();
 
@@ -83,6 +83,39 @@ public class PersonDAO {
                         rs.getString("Email"),
                         rs.getString("DateOfBirth"),
                         rs.getInt("UserID")
+                );
+                persons.add(person);
+            }
+            LOGGER.info("All persons selected");
+        } catch (SQLException e) {
+            LOGGER.error("Connect unsuccessfully");
+            e.printStackTrace();
+        } finally {
+            daoFactory.closeResultSet(rs);
+            daoFactory.closePrepareStatement(ps);
+        }
+        return persons;
+    }
+
+    public List<Person> getAllPersonsByUserId(int id) {
+        String sql = "SELECT * FROM persons WHERE UserID = " + id;
+        List<Person> persons = new ArrayList<>();
+
+        Person person;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try (Connection connection = daoFactory.getConnection()) {
+            LOGGER.info("Connect successful");
+            LOGGER.info("Trying to select all persons");
+            ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+            rs = ps.getResultSet();
+            while (rs.next()) {
+                person = new Person(
+                        rs.getString("Name"),
+                        rs.getString("Surname"),
+                        rs.getString("Email"),
+                        rs.getString("DateOfBirth")
                 );
                 persons.add(person);
             }

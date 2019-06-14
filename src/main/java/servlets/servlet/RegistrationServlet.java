@@ -27,8 +27,9 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter("login");
         login = login == null ? "" : login.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         password = password == null ? "" : password.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        User user = new User(login, password, USER);
 
-        boolean isUserExist = userDAO.isUserExist(login, password);
+        boolean isUserExist = user.isUserExist(user);
 
         if (isUserExist) {
             out.append("<h2 style=\"text-align:center;color:red\">Sorry Login is already exist!</h2>");
@@ -36,7 +37,6 @@ public class RegistrationServlet extends HttpServlet {
             rd.include(request, response);
             rd.forward(request, response);
         } else {
-            User user = new User(login, password, USER);
             userDAO.createUser(user);
             request.getRequestDispatcher("/birthdays.jsp").forward(request, response);
         }

@@ -44,7 +44,7 @@ public class UserDAO {
         return result;
     }
 
-    public User getUserByLogin(final String login) {
+    private User getUserByLogin(final String login) {
         User result = new User();
         result.setUserID(-1);
 
@@ -103,10 +103,10 @@ public class UserDAO {
         return result;
     }
 
-    public boolean createUser(final User user) {
+    public void createUser(final User user) {
         User u = getUserByLogin(user.getLogin());
         if (!u.getLogin().isEmpty()) {
-            return false;
+            return;
         }
         String sql = "INSERT INTO users(Login, Password, Role) VALUES (?, ?, ?)";
         PreparedStatement ps = null;
@@ -127,7 +127,6 @@ public class UserDAO {
             daoFactory.closePrepareStatement(ps);
         }
 
-        return true;
     }
 
     public ROLE getUserRoleByLoginPassword(final String login, final String password) {
@@ -138,17 +137,6 @@ public class UserDAO {
         }
         return result;
     }
-
-    public boolean isUserExist(final String login, final String password) {
-        User user = getUserByLoginPassword(login, password);
-
-        if (user.getLogin() == null || user.getPassword() == null) {
-            return false;
-        }
-
-        return user.getLogin().equals(login) && user.getPassword().equals(password);
-    }
-
 
     public int getUserId(User user) {
         String sql = "SELECT UserID FROM birthdays.users WHERE Login =" + "'" + user.getLogin() + "'";
