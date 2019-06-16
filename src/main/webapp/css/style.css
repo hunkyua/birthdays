@@ -9,6 +9,7 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    margin: 10px 0;
 }
 
 th {
@@ -23,6 +24,11 @@ td{
     text-align: left;
     padding: 8px;
     background: darkgray;
+}
+
+.persons tr:hover td{
+    background-color:#fefefe;
+    cursor: pointer;
 }
 
 button {

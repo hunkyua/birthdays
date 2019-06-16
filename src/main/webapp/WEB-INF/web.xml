@@ -42,4 +42,13 @@
         <servlet-name>ListOfPersonsServlet</servlet-name>
         <url-pattern>/listofpersons</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Menu</servlet-name>
+        <servlet-class>servlets.servlet.MenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Menu</servlet-name>
+        <url-pattern>/menu</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -4,9 +4,11 @@
 <head>
     <title>Birthdays</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type = "text/javascript" src="js/script.js" ></script>
 </head>
 <body>
-<table>
+<a style="align-content: center" href="addperson"><button>Add Person</button></a><br>
+<table class="persons">
     <tr>
         <th>№</th>
         <th>Name</th>
@@ -15,8 +17,8 @@
         <th>DateOfBirth</th>
     </tr>
     <c:forEach items="${persons}" var="person" varStatus="loop">
-    <tr>
-        <td>${loop.count}</td>
+    <tr onclick="onHover(${loop.count})">
+        <td id="loop">${loop.count}</td>
         <td>${person.name}</td>
         <td>${person.surname}</td>
         <td>${person.email}</td>
@@ -26,9 +28,7 @@
 </table>
 <br><br><br>
 <div class="back">
-    <a href="../birthdays">
-        <button>Go Back</button>
-    </a>
+        <button onclick="goBack()">Go Back</button>
 </div>
 </body>
 <footer> Hunky_UA <br> Copyright © 2019</footer>

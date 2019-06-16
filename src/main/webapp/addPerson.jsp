@@ -5,7 +5,6 @@
     <title>Birthdays</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type = "text/javascript" src="js/script.js" ></script>
-    <script type = "text/javascript" src="js/jquery.js" ></script>
   </head>
   <body>
   <p class="addPersonText">Fill the form for addPerson a new Person</p>
@@ -19,7 +18,7 @@
   <p class="error"><c:out value="${Error}"/></p>
   <br><br>
   <div class="back">
-    <a href="../birthdays">
+    <a href="../listofpersons">
       <button>Go Back</button>
     </a>
   </div>
