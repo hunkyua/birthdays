@@ -1,4 +1,4 @@
-package model;
+package ua.hunky.model;
 
 public enum ROLE {
     UNKNOWN, ADMIN, USER;

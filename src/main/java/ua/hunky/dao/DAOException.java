@@ -1,4 +1,4 @@
-package dao;
+package ua.hunky.dao;
 
 @SuppressWarnings("serial")
 public class DAOException extends Exception {

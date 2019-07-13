@@ -1,13 +1,15 @@
-package dao;
+package ua.hunky.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-class DB {
+@Component("db")
+public class DB {
 
     private final String CREATE_PERSONS = "CREATE TABLE birthdays.persons (" +
             "PersonID SERIAL PRIMARY KEY, " +
@@ -29,12 +31,12 @@ class DB {
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 
-    void prepareDB() {
+    public void prepareDB() {
         createPersons();
         createUsers();
     }
 
-    void dropDB() {
+    public void dropDB() {
         dropPersons();
         dropUsers();
     }

@@ -1,6 +1,6 @@
-package servlets.servlet;
+package ua.hunky.servlets.servlet;
 
-import dao.UserDAO;
+import ua.hunky.dao.UserDAO;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -16,12 +16,12 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         dao = new AtomicReference<>(new UserDAO());
-        //dao.get().createUser(new User("admin", "admin", ADMIN ));
-        //dao.get().createUser(new User("user", "user", USER ));
+        //ua.hunky.dao.get().createUser(new User("admin", "admin", ADMIN ));
+        //ua.hunky.dao.get().createUser(new User("user", "user", USER ));
 
         final ServletContext servletContext = sce.getServletContext();
 
-        servletContext.setAttribute("dao", dao);
+        servletContext.setAttribute("ua/hunky/dao", dao);
 
     }
 

@@ -1,8 +1,8 @@
-package servlets.filter;
+package ua.hunky.servlets.filter;
 
-import dao.UserDAO;
-import model.ROLE;
-import model.User;
+import ua.hunky.dao.UserDAO;
+import ua.hunky.model.ROLE;
+import ua.hunky.model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.Objects.nonNull;
-import static model.ROLE.UNKNOWN;
+import static ua.hunky.model.ROLE.UNKNOWN;
 
 public class AuthFilter implements Filter {
 
@@ -29,7 +29,7 @@ public class AuthFilter implements Filter {
         final String login = req.getParameter("login");
         final String password = req.getParameter("password");
 
-        @SuppressWarnings("unchecked") final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("dao");
+        @SuppressWarnings("unchecked") final AtomicReference<UserDAO> dao = (AtomicReference<UserDAO>) req.getServletContext().getAttribute("ua/hunky/dao");
         UserDAO userDAO = dao.get();
         User user = userDAO.getUserByLoginPassword(login,password);
         boolean isUserExist = user.isUserExist(user);

@@ -1,4 +1,4 @@
-package servlets.servlet;
+package ua.hunky.servlets.servlet;
 
 import javax.management.relation.Role;
 import javax.servlet.ServletException;

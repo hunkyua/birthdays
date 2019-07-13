@@ -1,5 +1,10 @@
-package model;
+package ua.hunky.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("prototype")
 public class Person {
     private Long personID;
     private String name;

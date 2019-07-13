@@ -1,4 +1,4 @@
-package servlets.servlet;
+package ua.hunky.servlets.servlet;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

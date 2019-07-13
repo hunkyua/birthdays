@@ -1,7 +1,7 @@
-package servlets.servlet;
+package ua.hunky.servlets.servlet;
 
-import dao.PersonDAO;
-import model.Person;
+import ua.hunky.dao.PersonDAO;
+import ua.hunky.model.Person;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

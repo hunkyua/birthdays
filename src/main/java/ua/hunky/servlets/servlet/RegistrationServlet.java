@@ -1,7 +1,8 @@
-package servlets.servlet;
+package ua.hunky.servlets.servlet;
 
-import dao.UserDAO;
-import model.User;
+import ua.hunky.dao.UserDAO;
+import ua.hunky.model.User;
+import ua.hunky.model.ROLE;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static model.ROLE.USER;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -38,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
             }
             user.setLogin(login);
             user.setPassword(password);
-            user.setRole(USER);
+            user.setRole(ROLE.USER);
             userDAO.createUser(user);
             request.getRequestDispatcher("/birthdays.jsp").forward(request, response);
         }

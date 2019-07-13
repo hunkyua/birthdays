@@ -1,6 +1,7 @@
-package dao;
+package ua.hunky.dao;
 
-import model.Person;
+import org.springframework.stereotype.Component;
+import ua.hunky.model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class PersonDAO {
 
     private DaoFactory daoFactory = DaoFactory.getInstance();

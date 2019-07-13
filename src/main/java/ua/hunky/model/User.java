@@ -1,12 +1,15 @@
-package model;
+package ua.hunky.model;
 
-import static model.ROLE.UNKNOWN;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+@Scope("prototype")
 public class User {
     private int userID;
     private String login = "";
     private String password = "";
-    private ROLE role = UNKNOWN;
+    private ROLE role = ROLE.UNKNOWN;
 
     public User() {
 

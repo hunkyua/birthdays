@@ -7,7 +7,7 @@
     <!--filter check exist session for sign in-->
     <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>servlets.filter.AuthFilter</filter-class>
+        <filter-class>ua.hunky.servlets.filter.AuthFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -18,7 +18,7 @@
     <!--Logout servlet-->
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>servlets.servlet.LogoutServlet</servlet-class>
+        <servlet-class>ua.hunky.servlets.servlet.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
@@ -27,7 +27,7 @@
 
     <servlet>
         <servlet-name>AddPersonServlet</servlet-name>
-        <servlet-class>servlets.servlet.AddPersonServlet</servlet-class>
+        <servlet-class>ua.hunky.servlets.servlet.AddPersonServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddPersonServlet</servlet-name>
@@ -36,7 +36,7 @@
 
     <servlet>
         <servlet-name>ListOfPersonsServlet</servlet-name>
-        <servlet-class>servlets.servlet.ListOfPersonsServlet</servlet-class>
+        <servlet-class>ua.hunky.servlets.servlet.ListOfPersonsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListOfPersonsServlet</servlet-name>
@@ -45,7 +45,7 @@
 
     <servlet>
         <servlet-name>Menu</servlet-name>
-        <servlet-class>servlets.servlet.MenuServlet</servlet-class>
+        <servlet-class>ua.hunky.servlets.servlet.MenuServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Menu</servlet-name>

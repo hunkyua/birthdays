@@ -1,12 +1,14 @@
-package dao;
+package ua.hunky.dao;
 
-import model.ROLE;
-import model.User;
+import org.springframework.stereotype.Component;
+import ua.hunky.model.ROLE;
+import ua.hunky.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+@Component
 public class UserDAO {
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
