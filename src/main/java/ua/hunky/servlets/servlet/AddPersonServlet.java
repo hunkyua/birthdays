@@ -1,5 +1,6 @@
 package ua.hunky.servlets.servlet;
 
+import ua.hunky.dao.DaoFactory;
 import ua.hunky.dao.PersonDAO;
 import ua.hunky.model.Person;
 
@@ -18,7 +19,8 @@ public class AddPersonServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        PersonDAO personDAO = new PersonDAO();
+        DaoFactory daoFactory = new DaoFactory();
+        PersonDAO personDAO = new PersonDAO(daoFactory);
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");

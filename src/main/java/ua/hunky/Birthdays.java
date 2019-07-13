@@ -1,7 +1,6 @@
 package ua.hunky;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.hunky.dao.DAOException;
 import ua.hunky.dao.DB;
 import ua.hunky.dao.PersonDAO;
 import ua.hunky.dao.UserDAO;
@@ -15,9 +14,9 @@ import static ua.hunky.model.ROLE.*;
 /**
  * Created by hunky on 7/9/19.
  */
-public class Birthdays {
-    public static void main(String[] args) throws DAOException {
 
+public class Birthdays {
+    public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         prepareDB(context);
         context.close();
@@ -28,41 +27,7 @@ public class Birthdays {
         db.dropDB();
         db.prepareDB();
 
-        User admin = context.getBean("user", User.class);
-        admin.setLogin("admin");
-        admin.setPassword("admin");
-        admin.setRole(ADMIN);
-
-        User user = context.getBean("user", User.class);
-        user.setLogin("user");
-        user.setPassword("user");
-        user.setRole(USER);
-
-        User unknown = context.getBean("user", User.class);
-        unknown.setLogin("unknown");
-        unknown.setPassword("unknown");
-        unknown.setRole(UNKNOWN);
-
-        User userTest = context.getBean("user", User.class);
-        userTest.setLogin("userTest");
-        userTest.setPassword("userTest");
-        userTest.setRole(USER);
-
-        UserDAO userDAO = context.getBean("userDAO", UserDAO.class);
-        userDAO.createUser(admin);
-        userDAO.createUser(user);
-        userDAO.createUser(unknown);
-        userDAO.createUser(userTest);
-
-        userTest.setUserID(userDAO.getUserId(userTest));
-
-        Person person = context.getBean("person", Person.class);
-        Person personTest1 = context.getBean("personTest1", Person.class);
-        Person personTest2 = context.getBean("personTest2", Person.class);
         PersonDAO personDAO = context.getBean("personDAO", PersonDAO.class);
-        personDAO.addPerson(person);
-        personDAO.addPerson(personTest1);
-        personDAO.addPerson(personTest2);
         printPersons(personDAO.getAllPersons());
     }
 

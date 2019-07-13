@@ -1,5 +1,6 @@
 package ua.hunky.servlets.servlet;
 
+import ua.hunky.dao.DaoFactory;
 import ua.hunky.dao.UserDAO;
 import ua.hunky.model.User;
 import ua.hunky.model.ROLE;
@@ -17,7 +18,8 @@ public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
+        DaoFactory daoFactory = new DaoFactory();
+        UserDAO userDAO = new UserDAO(daoFactory);
         response.setContentType("text/html");
         String login = request.getParameter("login");
         String password = request.getParameter("login");

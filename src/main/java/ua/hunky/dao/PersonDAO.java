@@ -1,20 +1,26 @@
 package ua.hunky.dao;
 
-import org.springframework.stereotype.Component;
-import ua.hunky.model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ua.hunky.model.Person;
 
 import java.math.BigInteger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class PersonDAO {
 
-    private DaoFactory daoFactory = DaoFactory.getInstance();
+    private DaoFactory daoFactory;
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
+
+    @Autowired
+    public PersonDAO (DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public Person getPersonById(int userID) {
         return null;
@@ -132,7 +138,7 @@ public class PersonDAO {
         return persons;
     }
 
-    public void updatePersonById(BigInteger personId) throws DAOException {
+    public void updatePersonById(BigInteger personId) {
         String sql = "UPDATE persons SET WHERE person_id = " + personId;
 
         PreparedStatement ps = null;
@@ -150,7 +156,7 @@ public class PersonDAO {
         }
     }
 
-    public void deletePersonById(BigInteger personId) throws DAOException {
+    public void deletePersonById(BigInteger personId) {
         String sql = "DELETE FROM persons WHERE person_id =" + personId;
 
         PreparedStatement ps = null;

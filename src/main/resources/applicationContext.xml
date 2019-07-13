@@ -8,6 +8,7 @@
 
     <context:property-placeholder location="classpath:user.properties" order="1" ignore-unresolvable="true"/>
     <context:property-placeholder location="classpath:person.properties" order="2" ignore-unresolvable="true"/>
+    <context:annotation-config/>
     <context:component-scan base-package="ua.hunky"/>
 
     <!--<bean id = "userAdmin" class = "ua.hunky.model.User">-->
@@ -32,30 +33,28 @@
         <!--<constructor-arg name="password" value = "${userTest.password}"/>-->
         <!--<constructor-arg name="role" value = "${userTest.role}"/>-->
     <!--</bean>-->
-    <bean id = "person" class = "ua.hunky.model.Person">
-        <constructor-arg name="personID" value = "${person.personID}"/>
-        <constructor-arg name="name" value = "${person.name}"/>
-        <constructor-arg name="surname" value = "${person.surname}"/>
-        <constructor-arg name="email" value = "${person.email}"/>
-        <constructor-arg name="dateOfBirth" value = "${person.dateOfBirth}"/>
-        <constructor-arg name="userID" value = "${person.userID}"/>
-    </bean>
-    <bean id = "personTest1" class = "ua.hunky.model.Person">
-        <constructor-arg name="personID" value = "${personTest1.personID}"/>
-        <constructor-arg name="name" value = "${personTest1.name}"/>
-        <constructor-arg name="surname" value = "${personTest1.surname}"/>
-        <constructor-arg name="email" value = "${personTest1.email}"/>
-        <constructor-arg name="dateOfBirth" value = "${personTest1.dateOfBirth}"/>
-        <constructor-arg name="userID" value = "${personTest1.userID}"/>
-    </bean>
-    <bean id = "personTest2" class = "ua.hunky.model.Person">
-        <constructor-arg name="personID" value = "${personTest2.personID}"/>
-        <constructor-arg name="name" value = "${personTest2.name}"/>
-        <constructor-arg name="surname" value = "${personTest2.surname}"/>
-        <constructor-arg name="email" value = "${personTest2.email}"/>
-        <constructor-arg name="dateOfBirth" value = "${personTest2.dateOfBirth}"/>
-        <constructor-arg name="userID" value = "${personTest2.userID}"/>
-    </bean>
-
-
+<!--    <bean id = "person" class = "ua.hunky.model.Person">-->
+<!--        <constructor-arg name="personID" value = "${person.personID}"/>-->
+<!--        <constructor-arg name="name" value = "${person.name}"/>-->
+<!--        <constructor-arg name="surname" value = "${person.surname}"/>-->
+<!--        <constructor-arg name="email" value = "${person.email}"/>-->
+<!--        <constructor-arg name="dateOfBirth" value = "${person.dateOfBirth}"/>-->
+<!--        <constructor-arg name="userID" value = "${person.userID}"/>-->
+<!--    </bean>-->
+<!--    <bean id = "personTest1" class = "ua.hunky.model.Person">-->
+<!--        <constructor-arg name="personID" value = "${personTest1.personID}"/>-->
+<!--        <constructor-arg name="name" value = "${personTest1.name}"/>-->
+<!--        <constructor-arg name="surname" value = "${personTest1.surname}"/>-->
+<!--        <constructor-arg name="email" value = "${personTest1.email}"/>-->
+<!--        <constructor-arg name="dateOfBirth" value = "${personTest1.dateOfBirth}"/>-->
+<!--        <constructor-arg name="userID" value = "${personTest1.userID}"/>-->
+<!--    </bean>-->
+<!--    <bean id = "personTest2" class = "ua.hunky.model.Person">-->
+<!--        <constructor-arg name="personID" value = "${personTest2.personID}"/>-->
+<!--        <constructor-arg name="name" value = "${personTest2.name}"/>-->
+<!--        <constructor-arg name="surname" value = "${personTest2.surname}"/>-->
+<!--        <constructor-arg name="email" value = "${personTest2.email}"/>-->
+<!--        <constructor-arg name="dateOfBirth" value = "${personTest2.dateOfBirth}"/>-->
+<!--        <constructor-arg name="userID" value = "${personTest2.userID}"/>-->
+<!--    </bean>-->
 </beans>

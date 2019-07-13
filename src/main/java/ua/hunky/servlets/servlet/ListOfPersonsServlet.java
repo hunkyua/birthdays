@@ -1,5 +1,6 @@
 package ua.hunky.servlets.servlet;
 
+import ua.hunky.dao.DaoFactory;
 import ua.hunky.dao.PersonDAO;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,8 @@ import java.io.IOException;
 public class ListOfPersonsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PersonDAO personDAO = new PersonDAO();
+        DaoFactory daoFactory = new DaoFactory();
+        PersonDAO personDAO = new PersonDAO(daoFactory);
 
         int userID = Integer.valueOf(request.getSession().getAttribute("userID").toString());
 

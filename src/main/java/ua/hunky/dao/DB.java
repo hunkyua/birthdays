@@ -2,11 +2,16 @@ package ua.hunky.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.hunky.model.Person;
+import ua.hunky.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import static ua.hunky.model.ROLE.*;
 
 @Component("db")
 public class DB {
@@ -28,12 +33,35 @@ public class DB {
     private final String DROP_PERSONS = "DROP TABLE persons";
     private final String DROP_USERS = "DROP TABLE users";
 
-    private DaoFactory daoFactory = DaoFactory.getInstance();
+    private UserDAO userDAO;
+    private PersonDAO personDAO;
+    private DaoFactory daoFactory;
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 
+    @Autowired
+    DB (UserDAO userDAO, PersonDAO personDAO, DaoFactory daoFactory) {
+        this.userDAO = userDAO;
+        this.personDAO = personDAO;
+        this.daoFactory = daoFactory;
+    }
+
     public void prepareDB() {
-        createPersons();
-        createUsers();
+        createTablePersons();
+        createTableUsers();
+        createDefaultUsers();
+        createDefaultPersons();
+    }
+
+    private void createDefaultUsers() {
+        userDAO.createUser(new User("admin", "admin", ADMIN));
+        userDAO.createUser(new User("user", "user", USER));
+        userDAO.createUser(new User("unknown", "unknown", UNKNOWN));
+        userDAO.createUser(new User("userTest", "userTest", USER));
+    }
+    private void createDefaultPersons() {
+        personDAO.addPerson(new Person(1L, "Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", 1));
+        personDAO.addPerson(new Person(1L, "Test1", "Testovich1", "Test1@gmail.com", "1986-04-21", 4));
+        personDAO.addPerson(new Person(2L, "Test2", "Testovich2", "Test2@gmail.com", "1976-02-11", 4));
     }
 
     public void dropDB() {
@@ -41,7 +69,7 @@ public class DB {
         dropUsers();
     }
 
-    private void createPersons() {
+    private void createTablePersons() {
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");
@@ -57,7 +85,7 @@ public class DB {
         }
     }
 
-    private void createUsers() {
+    private void createTableUsers() {
         PreparedStatement ps = null;
         try (Connection connection = daoFactory.getConnection()) {
             LOGGER.info("Connect successful");

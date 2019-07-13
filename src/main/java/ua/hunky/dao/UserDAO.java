@@ -1,20 +1,23 @@
 package ua.hunky.dao;
 
-import org.springframework.stereotype.Component;
-import ua.hunky.model.ROLE;
-import ua.hunky.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ua.hunky.model.ROLE;
+import ua.hunky.model.User;
 
 import java.sql.*;
 
-@Component
+@Repository
 public class UserDAO {
-    private DaoFactory daoFactory = DaoFactory.getInstance();
+
+    private DaoFactory daoFactory;
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 
-    public UserDAO() {
-
+    @Autowired
+    public UserDAO (DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     public User getUserById(int userID) {
