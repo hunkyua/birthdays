@@ -34,19 +34,19 @@ public class Birthdays {
         admin.setRole(ADMIN);
 
         User user = context.getBean("user", User.class);
-        admin.setLogin("user");
-        admin.setPassword("user");
-        admin.setRole(USER);
+        user.setLogin("user");
+        user.setPassword("user");
+        user.setRole(USER);
 
         User unknown = context.getBean("user", User.class);
-        admin.setLogin("unknown");
-        admin.setPassword("unknown");
-        admin.setRole(UNKNOWN);
+        unknown.setLogin("unknown");
+        unknown.setPassword("unknown");
+        unknown.setRole(UNKNOWN);
 
         User userTest = context.getBean("user", User.class);
-        admin.setLogin("userTest");
-        admin.setPassword("userTest");
-        admin.setRole(USER);
+        userTest.setLogin("userTest");
+        userTest.setPassword("userTest");
+        userTest.setRole(USER);
 
         UserDAO userDAO = context.getBean("userDAO", UserDAO.class);
         userDAO.createUser(admin);
