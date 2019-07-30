@@ -20,8 +20,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
         dispatcher.addMapping("*.pdf");
-        //dispatcher.addMapping("*.css");
-        //dispatcher.addMapping("*.js");
     }
 
 
@@ -31,19 +29,4 @@ public class WebAppInitializer implements WebApplicationInitializer {
         return context;
     }
 
-//    @Override
-//    protected Class<?>[] getRootConfigClasses() {
-//        return new Class[] {};
-//    }
-//
-//    @Override
-//    protected Class<?>[] getServletConfigClasses() {
-//        return new Class[] {WebConfig.class};
-//    }
-//
-//
-//    @Override
-//    protected String[] getServletMappings() {
-//        return new String[] { "/" };
-//    }
 }
