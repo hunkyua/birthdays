@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body class="admin_menu">
-<h1>Hello <c:out value="${user.getLogin()}"/></h1>
+<h1>Hello ${user.getLogin()}</h1>
 <div class="menu">
     <a href="listofpersons"><button>List of Persons</button></a><br><br><br>
     <a href="logout"><button>Logout</button></a>

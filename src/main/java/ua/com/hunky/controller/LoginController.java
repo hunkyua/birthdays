@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.com.hunky.dao.DaoFactory;
 import ua.com.hunky.dao.UserDAO;
@@ -19,6 +20,11 @@ public class LoginController {
         return new User();
     }
 
+//    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+//    public String displayLogin() {
+//        return "forward:index.jsp";
+//    }
+
     @RequestMapping(value = "/menu")
     public String login(@ModelAttribute("user") User user, Model model) {
         DaoFactory daoFactory = new DaoFactory();
@@ -27,7 +33,7 @@ public class LoginController {
         user.setRole(userDAO.getUserRole(user));
 
         if(!user.isUserExist()) {
-            model.addAttribute("error", "User doesn't not exist :( Try again.");
+            model.addAttribute("Error", "User doesn't not exist :( Try again.");
         }
         model.addAttribute("user", user);
         return moveToMenu(user.getRole());

@@ -22,13 +22,13 @@ public class DB {
             "Surname VARCHAR (30) NOT NULL, " +
             "Email VARCHAR (50), " +
             "DateOfBirth DATE NOT NULL," +
-            "UserID INT (20) NOT NULL) ";
+            "UserID INT (20) NOT NULL) CHARACTER SET utf8 COLLATE utf8_unicode_ci";
 
     private final String CREATE_USERS = "CREATE TABLE users (\n" +
             " UserID SERIAL PRIMARY KEY,\n" +
             " Login VARCHAR (50) NOT NULL UNIQUE ,\n" +
             " Password VARCHAR (50) NOT NULL ,\n" +
-            " Role INT (15) NOT NULL)";
+            " Role INT (15) NOT NULL) CHARACTER SET utf8 COLLATE utf8_unicode_ci";
 
     private final String DROP_PERSONS = "DROP TABLE persons";
     private final String DROP_USERS = "DROP TABLE users";
