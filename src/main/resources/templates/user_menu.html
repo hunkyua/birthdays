@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Birthdays</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body class="user_menu">
+<h1 th:text="'Hello ' + ${user.getLogin()}"></h1>
+<div class="menu">
+    <a href="listofpersons"><button>List of Persons</button></a><br><br><br>
+    <a href="logout"><button>Logout</button></a>
+</div>
+</body>
+<footer> Hunky_UA <br> Copyright © 2019</footer>
+</html>

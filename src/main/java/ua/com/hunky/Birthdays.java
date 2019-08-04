@@ -1,5 +1,8 @@
 package ua.com.hunky;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,16 +13,18 @@ import ua.com.hunky.model.Person;
 
 import java.util.List;
 
+@SpringBootApplication
 @Configuration
 @ComponentScan(basePackages = { "ua.com.hunky" }, excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Configuration.class) })
 public class Birthdays {
     public static void main(String[] args) {
-        var context = new AnnotationConfigApplicationContext();
-        context.scan("ua.com.hunky");
-        context.refresh();
-
-        prepareDB(context);
-        context.close();
+        SpringApplication.run(Birthdays.class, args);
+//        var context = new AnnotationConfigApplicationContext();
+//        context.scan("ua.com.hunky");
+//        context.refresh();
+//
+//        prepareDB(context);
+//        context.close();
     }
 
     private static void prepareDB(AnnotationConfigApplicationContext context) {

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="#{index.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body class="login">
+
+<a href="?language=en" methods="get">English</a>
+<a href="?language=ru" methods="get">Русский</a>
+
+    <div id="wrapper">
+        <h1 th:text="#{index.appNaming}"></h1>
+        <form id="signin" action="#" th:action="@{/}" method="post" autocomplete="off">
+            <input type="text" id="login" name="login" th:placeholder="#{index.login}" required/>
+            <input type="password" id="password" name="password" th:placeholder="#{index.password}" required/>
+            <button type="submit">&#xf0da;</button>
+            <div>
+                <span th:text="#{index.dontHaveAnAccount}"></span>
+                <a th:href="@{/registration}" th:text="#{index.clickHere}">Click here</a>
+            </div>
+            <p class="error" th:text="${Error}"></p>
+            <p class="alert" th:text="${Alert}"></p>
+        </form>
+    </div>
+</body>
+<footer> Hunky_UA <br> Copyright © 2019</footer>
+</html>

@@ -2,9 +2,9 @@ package ua.com.hunky.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.com.hunky.dao.DaoFactory;
 import ua.com.hunky.dao.UserDAO;
@@ -15,18 +15,15 @@ import ua.com.hunky.model.User;
 @SessionAttributes("user")
 public class LoginController {
 
-    @ModelAttribute("user")
-    public User setUpUser() {
-        return new User();
+    @GetMapping("/")
+    public String enter(Model model){
+        model.addAttribute("Error", "");
+        model.addAttribute("Alert", "");
+        return "index";
     }
 
-//    @RequestMapping(value = "/menu", method = RequestMethod.GET)
-//    public String displayLogin() {
-//        return "forward:index.jsp";
-//    }
-
-    @RequestMapping(value = "/menu")
-    public String login(@ModelAttribute("user") User user, Model model) {
+    @PostMapping("/")
+    public String login(@ModelAttribute("/user") User user, Model model) {
         DaoFactory daoFactory = new DaoFactory();
         UserDAO userDAO = new UserDAO(daoFactory);
         user = userDAO.getUserByLoginPassword(user.getLogin(), user.getPassword());
@@ -37,11 +34,6 @@ public class LoginController {
         }
         model.addAttribute("user", user);
         return moveToMenu(user.getRole());
-    }
-
-    @RequestMapping(value = "/index")
-    public String index(Model model) {
-        return "forward:index.jsp";
     }
 
     /**
@@ -56,7 +48,7 @@ public class LoginController {
             case USER:
                 return "user_menu";
             default:
-                return "../../index";
+                return "index";
         }
     }
 

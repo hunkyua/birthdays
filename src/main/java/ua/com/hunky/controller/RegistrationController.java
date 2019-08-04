@@ -2,9 +2,7 @@ package ua.com.hunky.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import ua.com.hunky.dao.DaoFactory;
 import ua.com.hunky.dao.UserDAO;
 import ua.com.hunky.model.ROLE;
@@ -14,7 +12,7 @@ import ua.com.hunky.model.User;
 @Controller
 public class RegistrationController {
 
-    @RequestMapping(value = "/doRegistration")
+    @PostMapping(value = "/doRegistration")
     private String registerNewUser(@ModelAttribute("user") User user, Model model) {
         DaoFactory daoFactory = new DaoFactory();
         UserDAO userDAO = new UserDAO(daoFactory);
@@ -38,11 +36,11 @@ public class RegistrationController {
             newUser.setRole(ROLE.USER);
             userDAO.createUser(newUser);
             model.addAttribute("Alert","User " + login + " was added");
-            return "../../index";
+            return "index";
         }
     }
 
-    @RequestMapping(value = "/registration")
+    @GetMapping(value = "/registration")
     private String registerNewUser() {
         return "registration";
     }

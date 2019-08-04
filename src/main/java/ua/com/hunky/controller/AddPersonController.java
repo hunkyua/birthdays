@@ -2,10 +2,7 @@ package ua.com.hunky.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import ua.com.hunky.dao.DaoFactory;
 import ua.com.hunky.dao.PersonDAO;
 import ua.com.hunky.model.Person;
@@ -21,7 +18,7 @@ import java.util.GregorianCalendar;
 @SessionAttributes("user")
 public class AddPersonController {
 
-    @RequestMapping(value = "/createperson", method = RequestMethod.POST)
+    @PostMapping(value = "/createperson")
     private String createPerson(@ModelAttribute("person") Person person, Model model) {
         DaoFactory daoFactory = new DaoFactory();
         PersonDAO personDAO = new PersonDAO(daoFactory);
@@ -54,6 +51,11 @@ public class AddPersonController {
         personDAO.addPerson(newPerson);
 
         model.addAttribute("Alert", "Person " + person.getName() + " successfully created");
+        return "addPerson";
+    }
+
+    @GetMapping(value = "/addperson")
+    private String moveToAddPerson() {
         return "addPerson";
     }
 
