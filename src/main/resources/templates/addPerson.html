@@ -22,11 +22,11 @@
     </label><br><br>
     <input type="submit" value="Create Person">
 </form>
-<p class="error" th:value="${Error}"></p>
-<p class="alert" th:value="${Alert}"></p>
+<p class="error" th:text="${Error}"></p>
+<p class="alert" th:text="${Alert}"></p>
 <br><br>
 <div class="back">
-    <a href="listofpersons">
+    <a th:href="@{listofpersons}">
         <button>Go Back</button>
     </a>
 </div>

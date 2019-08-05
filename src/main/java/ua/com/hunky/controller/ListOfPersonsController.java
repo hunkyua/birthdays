@@ -16,7 +16,7 @@ import java.util.List;
 @SessionAttributes("user")
 public class ListOfPersonsController {
 
-    @GetMapping(value = "/listofpersons")
+    @GetMapping("/listofpersons")
     private String getListOfPersons(User user, Model model) {
         DaoFactory daoFactory = new DaoFactory();
         PersonDAO personDAO = new PersonDAO(daoFactory);

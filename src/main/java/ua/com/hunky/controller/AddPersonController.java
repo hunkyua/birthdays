@@ -18,7 +18,7 @@ import java.util.GregorianCalendar;
 @SessionAttributes("user")
 public class AddPersonController {
 
-    @PostMapping(value = "/createperson")
+    @PostMapping("/createperson")
     private String createPerson(@ModelAttribute("person") Person person, Model model) {
         DaoFactory daoFactory = new DaoFactory();
         PersonDAO personDAO = new PersonDAO(daoFactory);
@@ -54,7 +54,7 @@ public class AddPersonController {
         return "addPerson";
     }
 
-    @GetMapping(value = "/addperson")
+    @GetMapping("/addperson")
     private String moveToAddPerson() {
         return "addPerson";
     }

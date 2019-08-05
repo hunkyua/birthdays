@@ -1,9 +1,9 @@
 package ua.com.hunky;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -18,16 +18,11 @@ import java.util.List;
 @ComponentScan(basePackages = { "ua.com.hunky" }, excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Configuration.class) })
 public class Birthdays {
     public static void main(String[] args) {
-        SpringApplication.run(Birthdays.class, args);
-//        var context = new AnnotationConfigApplicationContext();
-//        context.scan("ua.com.hunky");
-//        context.refresh();
-//
-//        prepareDB(context);
-//        context.close();
+        ConfigurableApplicationContext context = SpringApplication.run(Birthdays.class, args);
+        //prepareDB(context);
     }
 
-    private static void prepareDB(AnnotationConfigApplicationContext context) {
+    private static void prepareDB(ConfigurableApplicationContext context) {
         DB db = context.getBean(DB.class);
         db.dropDB();
         db.prepareDB();

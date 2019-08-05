@@ -4,13 +4,28 @@
     <meta charset="utf-8">
     <title th:text="#{index.title}"></title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#locales").change(function () {
+                var selectedOption = $('#locales').val();
+                if (selectedOption !== ''){
+                    window.location.replace('?lang=' + selectedOption);
+                }
+            });
+        });
+    </script>
 </head>
 <body class="login">
 
-<a href="?language=en" methods="get">English</a>
-<a href="?language=ru" methods="get">Русский</a>
-
+<a href="?lang=en" methods="get">English</a>
+<a href="?lang=ru" methods="get">Русский</a>
+<span th:text="#{lang.change}"></span>:
+<select id="locales">
+    <option value=""></option>
+    <option value="en" th:text="#{lang.eng}"></option>
+    <option value="fr" th:text="#{lang.fr}"></option>
+</select>
     <div id="wrapper">
         <h1 th:text="#{index.appNaming}"></h1>
         <form id="signin" action="#" th:action="@{/}" method="post" autocomplete="off">

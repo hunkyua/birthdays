@@ -10,12 +10,13 @@ import ua.com.hunky.model.User;
 @SessionAttributes("user")
 public class BackController {
 
-    @GetMapping(value = "/back")
+    @GetMapping("/backFromListOfPersons")
     private String back(@ModelAttribute("user") User user) {
-        System.out.println(user.getLogin());
-        System.out.println(user.getPassword());
-        System.out.println(user.getRole());
-        return "index";
+        switch (user.getRole()) {
+            case USER : return "user_menu";
+            case ADMIN : return  "admin_menu";
+            default: return "index";
+        }
     }
 
 }

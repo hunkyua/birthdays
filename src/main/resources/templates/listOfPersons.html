@@ -6,7 +6,7 @@
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 <body>
-<a style="align-content: center" th:href="@{addperson}"><button>Add Person</button></a><br>
+<a th:href="@{addperson}"><button>Add Person</button></a><br>
 <table class="persons">
     <tr>
         <th>№</th>
@@ -15,8 +15,8 @@
         <th>Email</th>
         <th>DateOfBirth</th>
     </tr>
-    <tr th:each="person,iter  : ${perosn}">
-        <td id="loop" th:text="${person.count}"></td>
+    <tr th:each="person,iter  : ${persons}">
+        <td id="loop" th:text="${iter.count}"></td>
         <td th:text="${person.name}"></td>
         <td th:text="${person.surname}"></td>
         <td th:text="${person.email}"></td>
@@ -25,7 +25,7 @@
 </table>
 <br><br><br>
 <div class="back">
-    <a th:href="@{../}">
+    <a th:href="@{backFromListOfPersons}">
         <button>Go Back</button>
     </a>
 </div>

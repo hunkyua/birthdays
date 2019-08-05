@@ -12,7 +12,7 @@ import ua.com.hunky.model.User;
 @Controller
 public class RegistrationController {
 
-    @PostMapping(value = "/doRegistration")
+    @PostMapping("/doRegistration")
     private String registerNewUser(@ModelAttribute("user") User user, Model model) {
         DaoFactory daoFactory = new DaoFactory();
         UserDAO userDAO = new UserDAO(daoFactory);
@@ -40,7 +40,7 @@ public class RegistrationController {
         }
     }
 
-    @GetMapping(value = "/registration")
+    @GetMapping("/registration")
     private String registerNewUser() {
         return "registration";
     }

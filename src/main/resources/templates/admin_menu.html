@@ -7,8 +7,8 @@
 <body class="admin_menu">
 <h1 th:text="'Hello ' + ${user.getLogin()}"></h1>
 <div class="menu">
-    <a href="listofpersons"><button>List of Persons</button></a><br><br><br>
-    <a href="logout"><button>Logout</button></a>
+    <a th:href="@{listofpersons}"><button>List of Persons</button></a><br><br><br>
+    <a th:href="@{logout}"><button>Logout</button></a>
 </div>
 </body>
 <footer> Hunky_UA <br> Copyright © 2019</footer>
