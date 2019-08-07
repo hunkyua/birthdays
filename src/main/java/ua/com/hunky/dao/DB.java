@@ -3,7 +3,7 @@ package ua.com.hunky.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ua.com.hunky.model.Person;
 import ua.com.hunky.model.User;
 
@@ -13,14 +13,14 @@ import java.sql.SQLException;
 
 import static ua.com.hunky.model.ROLE.*;
 
-@Component("db")
+@Repository("db")
 public class DB {
 
-    private final String CREATE_PERSONS = "CREATE TABLE birthdays.persons (" +
+    private final String CREATE_PERSONS = "CREATE TABLE persons (" +
             "PersonID SERIAL PRIMARY KEY, " +
             "Name VARCHAR (30) NOT NULL, " +
             "Surname VARCHAR (30) NOT NULL, " +
-            "Email VARCHAR (50), " +
+            "Email VARCHAR (50) UNIQUE, " +
             "DateOfBirth DATE NOT NULL," +
             "UserID INT (20) NOT NULL) CHARACTER SET utf8 COLLATE utf8_unicode_ci";
 

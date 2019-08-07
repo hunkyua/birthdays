@@ -55,6 +55,7 @@ public class PersonDAO {
         } catch (SQLException e) {
             LOGGER.error("Connect unsuccessfully");
             e.printStackTrace();
+            return false;
         } finally {
             daoFactory.closePrepareStatement(ps);
         }

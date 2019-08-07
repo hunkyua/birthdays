@@ -20,12 +20,7 @@
 
 <a href="?lang=en" methods="get">English</a>
 <a href="?lang=ru" methods="get">Русский</a>
-<span th:text="#{lang.change}"></span>:
-<select id="locales">
-    <option value=""></option>
-    <option value="en" th:text="#{lang.eng}"></option>
-    <option value="fr" th:text="#{lang.fr}"></option>
-</select>
+
     <div id="wrapper">
         <h1 th:text="#{index.appNaming}"></h1>
         <form id="signin" action="#" th:action="@{/}" method="post" autocomplete="off">

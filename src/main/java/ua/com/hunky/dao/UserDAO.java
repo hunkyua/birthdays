@@ -13,7 +13,6 @@ import static ua.com.hunky.model.ROLE.UNKNOWN;
 
 @Repository
 public class UserDAO {
-    @Autowired
     private DaoFactory daoFactory;
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class.getName());
 

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Controller
 @SessionAttributes("user")
@@ -30,9 +31,17 @@ public class AddPersonController {
         surname = surname == null ? "" : surname.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         Date date = null;
         Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
+        List<Person> allPersons = personDAO.getAllPersons();
 
-        if(email.isEmpty() || dateOfBirthday.isEmpty()) {
+        if (email.isEmpty() || dateOfBirthday.isEmpty()) {
             return "addPerson";
+        }
+
+        for (Person personDB : allPersons) {
+            if (personDB.getEmail().contains(person.getEmail())) {
+                model.addAttribute("Error", "Email \"" + person.getEmail() +"\" already exist");
+                return "addPerson";
+            }
         }
 
         try {
@@ -48,9 +57,12 @@ public class AddPersonController {
         User user = (User) model.asMap().get("user");
         int userID = user.getUserID();
         Person newPerson = new Person(name, surname, email, dateOfBirthday, userID);
-        personDAO.addPerson(newPerson);
+        boolean personIsAdded = personDAO.addPerson(newPerson);
 
-        model.addAttribute("Alert", "Person " + person.getName() + " successfully created");
+        if (personIsAdded) {
+            model.addAttribute("Alert", "Person " + person.getName() + " successfully created");
+        }
+
         return "addPerson";
     }
 
