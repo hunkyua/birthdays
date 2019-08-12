@@ -27,18 +27,18 @@ public class LoginController {
     @PostMapping("/")
     public String login(@RequestParam String login, @RequestParam String password, Model model) {
         Iterable<User> users = userRepository.findAll();
-        User user = new User();
-        for (User u : users) {
-            if (u.getLogin().equals(login) && u.getPassword().equals(password)) {
-             user = u;
+        User sessionUser = new User();
+        for (User user : users) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                sessionUser = user;
             }
         }
 
-        if(!user.isUserExist()) {
+        if(!sessionUser.isUserExist()) {
                 model.addAttribute("Error", "User doesn't not exist :( Try again.");
         }
-        model.addAttribute("user", user);
-        return moveToMenu(user.getRole());
+        model.addAttribute("user", sessionUser);
+        return moveToMenu(sessionUser.getRole());
     }
 
     /**

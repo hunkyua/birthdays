@@ -17,7 +17,7 @@ import java.sql.Date;
 public class Person {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long personID;
     @Column(name = "name")
     private String name;

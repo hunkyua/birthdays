@@ -31,13 +31,13 @@ public class RegistrationController {
                 if (login.isEmpty() && password.isEmpty()) {
                     return "registration";
                 }
-                User newUser = new User(login, password, ROLE.USER);
-                userRepository.save(newUser);
-                model.put("Alert", "User " + login + " was added");
-                return "index";
             }
         }
-        return "registration";
+
+        User newUser = new User(login, password, ROLE.USER);
+        userRepository.save(newUser);
+        model.put("Alert", "User " + login + " was added");
+        return "index";
     }
 
     @GetMapping("/registration")
