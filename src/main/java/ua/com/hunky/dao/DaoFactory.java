@@ -2,13 +2,13 @@ package ua.com.hunky.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
-@Component
+@Repository
 public class DaoFactory {
-    private static final String URL = "jdbc:mariadb://91.200.232.73:3333/birthdays";
+    private static final String URL = "jdbc:mysql://localhost:3306/birthdays";
     private static final String USER = "birthdaysuser";
     private static final String PASS = "birthdayspass";
 
