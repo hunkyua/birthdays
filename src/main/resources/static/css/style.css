@@ -165,6 +165,16 @@ p.error {
     text-decoration: none;
 }
 
+a{
+    color: rgb(36, 121, 71);
+    text-decoration: none;
+}
+
+a:hover{
+    color: rgba(255, 249, 180, 0.93);
+    border-bottom: 1px solid;
+}
+
 #signin a:hover{
     color: rgba(255, 249, 180, 0.93);
     border-bottom: 1px solid;

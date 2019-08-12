@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class User extends AbstractEntity {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userID;
     @Column(name = "login")
     private String login = "";

@@ -1,43 +1,43 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ua.com.hunky.dao.DaoFactory;
-import ua.com.hunky.dao.UserDAO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.hunky.model.ROLE;
 import ua.com.hunky.model.User;
+import ua.com.hunky.repository.UserRepository;
+
+import java.util.Map;
 
 
 @Controller
 public class RegistrationController {
+    @Autowired
+    UserRepository userRepository;
 
     @PostMapping("/doRegistration")
-    private String registerNewUser(@ModelAttribute("user") User user, Model model) {
-        DaoFactory daoFactory = new DaoFactory();
-        UserDAO userDAO = new UserDAO(daoFactory);
-        String login = user.getLogin();
-        String password = user.getPassword();
+    private String registerNewUser(@RequestParam String login, @RequestParam String password, Map<String, Object> model) {
         login = login == null ? "" : login.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         password = password == null ? "" : password.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        User newUser = userDAO.getUserByLoginPassword(login,password);
+        Iterable<User> users = userRepository.findAll();
 
-        boolean isUserExist = newUser.isUserExist();
-
-        if (isUserExist) {
-            model.addAttribute("Error", "Sorry login is already exist!");
-            return "registration";
-        } else {
-            if (login.isEmpty() && password.isEmpty()) {
+        for (User user : users) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                model.put("Error", "Sorry login is already exist!");
                 return "registration";
+            } else {
+                if (login.isEmpty() && password.isEmpty()) {
+                    return "registration";
+                }
+                User newUser = new User(login, password, ROLE.USER);
+                userRepository.save(newUser);
+                model.put("Alert", "User " + login + " was added");
+                return "index";
             }
-            newUser.setLogin(login);
-            newUser.setPassword(password);
-            newUser.setRole(ROLE.USER);
-            userDAO.createUser(newUser);
-            model.addAttribute("Alert","User " + login + " was added");
-            return "index";
         }
+        return "registration";
     }
 
     @GetMapping("/registration")

@@ -1,5 +1,6 @@
 package ua.com.hunky.controller;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @SessionAttributes("user")
@@ -25,11 +27,11 @@ public class AddPersonController {
     PersonRepository personRepository;
 
     @PostMapping("/createperson")
-    private String createPerson(@RequestParam String name, @RequestParam String surname, @RequestParam String email,@RequestParam Date dateOfBirth,  Model model) {
+    private String createPerson(@RequestParam String name, @RequestParam String surname, @RequestParam String email,@RequestParam Date dateOfBirth,  Map<String, Object> model) {
         name = name == null ? "" : name.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         surname = surname == null ? "" : surname.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
-        User user = (User) model.asMap().get("user");
+        User user = (User) model.get("user");
         List<Person> persons = personRepository.findAllByUserID(user.getUserID());
 
         if (email.isEmpty() || dateOfBirth == null) {
@@ -38,7 +40,7 @@ public class AddPersonController {
 
         for (Person personDB : persons) {
             if (personDB.getEmail().contains(email)) {
-                model.addAttribute("Error", "Email \"" + email +"\" already exist");
+                model.put("Error", "Email \"" + email +"\" already exist");
                 return "addPerson";
             }
         }
@@ -52,15 +54,16 @@ public class AddPersonController {
         java.sql.Date sqlDate = new Date(date.getTime());
 
         if (sqlDate != null && (sqlDate.before(validateDateBefore.getTime()) || sqlDate.after(Calendar.getInstance().getTime()))) {
-            model.addAttribute("Error", "Wrong data inside field \"Date of birth\"");
+            model.put("Error", "Wrong data inside field \"Date of birth\"");
             return "addPerson";
         }
 
         Person newPerson = new Person(name, surname, email, dateOfBirth, user.getUserID());
+        personRepository.flush();
         personRepository.save(newPerson);
-       // boolean personIsAdded = personDAO.addPerson(newPerson);
-         model.addAttribute("Alert", "Person " + name + " successfully created");
 
+       // boolean personIsAdded = personDAO.addPerson(newPerson);
+         model.put("Alert", "Person " + name + " successfully created");
 
         return "addPerson";
     }
