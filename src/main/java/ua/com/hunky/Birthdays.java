@@ -1,12 +1,12 @@
 package ua.com.hunky;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import ua.com.hunky.dao.DB;
 import ua.com.hunky.dao.PersonDAO;
 import ua.com.hunky.model.Person;
@@ -14,9 +14,10 @@ import ua.com.hunky.model.Person;
 import java.util.List;
 
 @SpringBootApplication
-@Configuration
+@EnableJpaAuditing
 @ComponentScan(basePackages = { "ua.com.hunky" }, excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Configuration.class) })
 public class Birthdays {
+
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Birthdays.class, args);
         //prepareDB(context);

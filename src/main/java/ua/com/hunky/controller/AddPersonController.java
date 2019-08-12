@@ -1,67 +1,66 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ua.com.hunky.dao.DaoFactory;
-import ua.com.hunky.dao.PersonDAO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.com.hunky.model.Person;
 import ua.com.hunky.model.User;
+import ua.com.hunky.repository.PersonRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
 @SessionAttributes("user")
 public class AddPersonController {
+    @Autowired
+    PersonRepository personRepository;
 
     @PostMapping("/createperson")
-    private String createPerson(@ModelAttribute("person") Person person, Model model) {
-        DaoFactory daoFactory = new DaoFactory();
-        PersonDAO personDAO = new PersonDAO(daoFactory);
-        String name = person.getName();
-        String surname = person.getSurname();
-        String email = person.getEmail();
-        String dateOfBirthday = person.getDateOfBirth();
+    private String createPerson(@RequestParam String name, @RequestParam String surname, @RequestParam String email,@RequestParam Date dateOfBirth,  Model model) {
         name = name == null ? "" : name.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         surname = surname == null ? "" : surname.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        Date date = null;
         Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
-        List<Person> allPersons = personDAO.getAllPersons();
+        User user = (User) model.asMap().get("user");
+        List<Person> persons = personRepository.findAllByUserID(user.getUserID());
 
-        if (email.isEmpty() || dateOfBirthday.isEmpty()) {
+        if (email.isEmpty() || dateOfBirth == null) {
             return "addPerson";
         }
 
-        for (Person personDB : allPersons) {
-            if (personDB.getEmail().contains(person.getEmail())) {
-                model.addAttribute("Error", "Email \"" + person.getEmail() +"\" already exist");
+        for (Person personDB : persons) {
+            if (personDB.getEmail().contains(email)) {
+                model.addAttribute("Error", "Email \"" + email +"\" already exist");
                 return "addPerson";
             }
         }
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy/MM/dd").parse(dateOfBirthday.replace("-", "/"));
+            date = sdf.parse(String.valueOf(dateOfBirth));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        java.sql.Date sqlDate = new Date(date.getTime());
 
-        if (date != null && (date.before(validateDateBefore.getTime()) || date.after(Calendar.getInstance().getTime()))) {
+        if (sqlDate != null && (sqlDate.before(validateDateBefore.getTime()) || sqlDate.after(Calendar.getInstance().getTime()))) {
             model.addAttribute("Error", "Wrong data inside field \"Date of birth\"");
             return "addPerson";
         }
-        User user = (User) model.asMap().get("user");
-        int userID = user.getUserID();
-        Person newPerson = new Person(name, surname, email, dateOfBirthday, userID);
-        boolean personIsAdded = personDAO.addPerson(newPerson);
 
-        if (personIsAdded) {
-            model.addAttribute("Alert", "Person " + person.getName() + " successfully created");
-        }
+        Person newPerson = new Person(name, surname, email, dateOfBirth, user.getUserID());
+        personRepository.save(newPerson);
+       // boolean personIsAdded = personDAO.addPerson(newPerson);
+         model.addAttribute("Alert", "Person " + name + " successfully created");
+
 
         return "addPerson";
     }

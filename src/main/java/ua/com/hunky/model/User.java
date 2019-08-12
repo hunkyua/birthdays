@@ -2,21 +2,34 @@ package ua.com.hunky.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.dom4j.tree.AbstractEntity;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+
 
 @Component
 @Getter
 @Setter
 @Scope("prototype")
-public class User {
-    private int userID;
+@Entity
+@Table(name = "users")
+public class User extends AbstractEntity {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue
+    private Long userID;
+    @Column(name = "login")
     private String login = "";
+    @Column(name = "password")
     private String password = "";
+    @Column(name = "role")
     private ROLE role = ROLE.UNKNOWN;
 
-    public User() {
+//    List<Person> person;
 
+    public User() {
     }
 
     public User(String login, String password, ROLE role) {
@@ -41,6 +54,9 @@ public class User {
         return ROLE.UNKNOWN;
     }
 
+//    public List<Person> getPersons() {
+//        return null;
+//    }
 }
 
 

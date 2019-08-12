@@ -1,19 +1,21 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import ua.com.hunky.dao.DaoFactory;
-import ua.com.hunky.dao.UserDAO;
 import ua.com.hunky.model.ROLE;
 import ua.com.hunky.model.User;
+import ua.com.hunky.repository.UserRepository;
 
 @Controller
 @SessionAttributes("user")
 public class LoginController {
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/")
     public String enter(Model model){
@@ -23,14 +25,17 @@ public class LoginController {
     }
 
     @PostMapping("/")
-    public String login(@ModelAttribute("/user") User user, Model model) {
-        DaoFactory daoFactory = new DaoFactory();
-        UserDAO userDAO = new UserDAO(daoFactory);
-        user = userDAO.getUserByLoginPassword(user.getLogin(), user.getPassword());
-        user.setRole(userDAO.getUserRole(user));
+    public String login(@RequestParam String login, @RequestParam String password, Model model) {
+        Iterable<User> users = userRepository.findAll();
+        User user = new User();
+        for (User u : users) {
+            if (u.getLogin().equals(login) && u.getPassword().equals(password)) {
+             user = u;
+            }
+        }
 
         if(!user.isUserExist()) {
-            model.addAttribute("Error", "User doesn't not exist :( Try again.");
+                model.addAttribute("Error", "User doesn't not exist :( Try again.");
         }
         model.addAttribute("user", user);
         return moveToMenu(user.getRole());

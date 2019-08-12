@@ -22,18 +22,6 @@ public class PersonDAO {
         this.daoFactory = daoFactory;
     }
 
-    public Person getPersonById(int userID) {
-        return null;
-    }
-
-    public Person getPersonByName(String name) {
-        return null;
-    }
-
-    public Person getPersonByNameSurname(String name, String surname) {
-        return null;
-    }
-
     public boolean addPerson(Person person) {
         if (person.getUserID() == 0) {
             return false;
@@ -48,8 +36,8 @@ public class PersonDAO {
             ps.setString(1, person.getName());
             ps.setString(2, person.getSurname());
             ps.setString(3, person.getEmail());
-            ps.setString(4, person.getDateOfBirth());
-            ps.setInt(5, person.getUserID());
+            ps.setDate(4, person.getDateOfBirth());
+            ps.setLong(5, person.getUserID());
             ps.execute();
             LOGGER.info("Person was created");
         } catch (SQLException e) {
@@ -61,14 +49,6 @@ public class PersonDAO {
         }
 
         return true;
-    }
-
-    public boolean isPersonExist(String login, String password) {
-        return false;
-    }
-
-    public int getPersonId(Person person) {
-        return 0;
     }
 
     public List<Person> getAllPersons() {
@@ -90,8 +70,8 @@ public class PersonDAO {
                         rs.getString("Name"),
                         rs.getString("Surname"),
                         rs.getString("Email"),
-                        rs.getString("DateOfBirth"),
-                        rs.getInt("UserID")
+                        rs.getDate("DateOfBirth"),
+                        rs.getLong("UserID")
                 );
                 persons.add(person);
             }
@@ -105,101 +85,5 @@ public class PersonDAO {
         }
         return persons;
     }
-
-    public List<Person> getAllPersonsByUserId(int id) {
-        String sql = "SELECT * FROM persons WHERE UserID = " + id;
-        List<Person> persons = new ArrayList<>();
-
-        Person person;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to select all persons");
-            ps = connection.prepareStatement(sql);
-            ps.executeQuery();
-            rs = ps.getResultSet();
-            while (rs.next()) {
-                person = new Person(
-                        rs.getString("Name"),
-                        rs.getString("Surname"),
-                        rs.getString("Email"),
-                        rs.getString("DateOfBirth")
-                );
-                persons.add(person);
-            }
-            LOGGER.info("All persons selected");
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closeResultSet(rs);
-            daoFactory.closePrepareStatement(ps);
-        }
-        return persons;
-    }
-
-    public void updatePersonById(BigInteger personId) {
-        String sql = "UPDATE persons SET WHERE person_id = " + personId;
-
-        PreparedStatement ps = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to update a person by ID = " + personId);
-            ps = connection.prepareStatement(sql);
-            ps.execute();
-            LOGGER.info("Person updated");
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closePrepareStatement(ps);
-        }
-    }
-
-    public void deletePersonById(BigInteger personId) {
-        String sql = "DELETE FROM persons WHERE person_id =" + personId;
-
-        PreparedStatement ps = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to delete a person by ID = " + personId);
-            ps = connection.prepareStatement(sql);
-            ps.execute();
-            LOGGER.info("Person deleted");
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closePrepareStatement(ps);
-        }
-    }
-
-//    public void createPerson(Person person) throws DAOException {
-//        if (person.getUserID() == 0) {
-//            return;
-//        }
-//        String sql = "INSERT INTO persons(Name, Surname, Email, DateOfBirth, UserID) VALUES (?, ?, ?, ?, ?)";
-//
-//        PreparedStatement ps = null;
-//        try (Connection connection = daoFactory.getConnection()) {
-//            LOGGER.info("Connect successful");
-//            LOGGER.info("Trying to addPerson person");
-//            ps = connection.prepareStatement(sql);
-//            ps.setString(1, person.getName());
-//            ps.setString(2, person.getSurname());
-//            ps.setString(3, person.getEmail());
-//            ps.setDate(4, Date.valueOf(person.getDateOfBirth()));
-//            ps.setLong(5, person.getUserID());
-//            ps.execute();
-//            LOGGER.info("Person created");
-//        } catch (SQLException e) {
-//            LOGGER.error("Connect unsuccessfully");
-//            e.printStackTrace();
-//        } finally {
-//            daoFactory.closePrepareStatement(ps);
-//        }
-//
-//    }
 
 }

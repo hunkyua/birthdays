@@ -59,10 +59,10 @@ public class DB {
         userDAO.createUser(new User("userTest", "userTest", USER));
     }
     private void createDefaultPersons() {
-        personDAO.addPerson(new Person(1L, "Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", 1));
-        personDAO.addPerson(new Person(1L, "Irina", "Petrovna", "Irina@gmail.com", "1980-08-16", 1));
-        personDAO.addPerson(new Person(1L, "Test1", "Testovich1", "Test1@gmail.com", "1986-04-21", 4));
-        personDAO.addPerson(new Person(2L, "Test2", "Testovich2", "Test2@gmail.com", "1976-02-11", 4));
+        //personDAO.addPerson(new Person(1L, "Petr", "Petrov", "Petrov@gmail.com", "1990-08-16", 1L));
+        //personDAO.addPerson(new Person(1L, "Irina", "Petrovna", "Irina@gmail.com", "1980-08-16", 1L));
+        //personDAO.addPerson(new Person(1L, "Test1", "Testovich1", "Test1@gmail.com", "1986-04-21", 4L));
+       // personDAO.addPerson(new Person(2L, "Test2", "Testovich2", "Test2@gmail.com", "1976-02-11", 4L));
     }
 
     public void dropDB() {

@@ -9,8 +9,6 @@ import ua.com.hunky.model.User;
 
 import java.sql.*;
 
-import static ua.com.hunky.model.ROLE.UNKNOWN;
-
 @Repository
 public class UserDAO {
     private DaoFactory daoFactory;
@@ -21,38 +19,9 @@ public class UserDAO {
         this.daoFactory = daoFactory;
     }
 
-    public User getUserById(int userID) {
-        User result = new User();
-        result.setUserID(-1);
-
-        String sql = "SELECT * FROM birthdays.users WHERE userID =" + "'" + userID + "'";
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to get user by userID : " + userID);
-            ps = connection.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                result.setLogin(rs.getString("Login"));
-                result.setPassword(rs.getString("Password"));
-                result.setUserID(rs.getInt("UserID"));
-                LOGGER.info("User login is " + result.getLogin());
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closeResultSet(rs);
-            daoFactory.closePrepareStatement(ps);
-        }
-
-        return result;
-    }
-
     public User getUserByLoginPassword(final String login, final String password) {
         User result = new User();
-        result.setUserID(-1);
+        result.setUserID(-1L);
 
         String sql = "SELECT * FROM birthdays.users WHERE Login =" + "'" + login + "'" + " AND Password =" + "'" + password + "'";
         PreparedStatement ps = null;
@@ -63,7 +32,7 @@ public class UserDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
-                result.setUserID(rs.getInt("UserID"));
+                result.setUserID(rs.getLong("UserID"));
                 result.setLogin(rs.getString("Login"));
                 result.setPassword(rs.getString("Password"));
                 result.setRole(ROLE.getRoleByNumber(rs.getInt("Role")));
@@ -105,80 +74,5 @@ public class UserDAO {
 
     }
 
-    public int getUserId(User user) {
-        String sql = "SELECT UserID FROM birthdays.users WHERE Login =" + "'" + user.getLogin() + "'";
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to get userID by " + user.getLogin());
-            ps = connection.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                LOGGER.info("UserID is " + rs.getInt("UserID"));
-                return rs.getInt("UserID");
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closeResultSet(rs);
-            daoFactory.closePrepareStatement(ps);
-        }
-        return 0;
-    }
-
-    public ROLE getUserRole(User user) {
-        String sql = "SELECT Role FROM birthdays.users WHERE Login =" + "'" + user.getLogin() + "'";
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try (Connection connection = daoFactory.getConnection()) {
-            LOGGER.info("Connect successful");
-            LOGGER.info("Trying to get userRole by " + user.getLogin());
-            ps = connection.prepareStatement(sql);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                LOGGER.info("UserRole is " + rs.getString("Role"));
-                return ROLE.getRoleByNumber(Integer.valueOf(rs.getString("Role")));
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Connect unsuccessfully");
-            e.printStackTrace();
-        } finally {
-            daoFactory.closeResultSet(rs);
-            daoFactory.closePrepareStatement(ps);
-        }
-        return UNKNOWN;
-    }
-
-//    private User getUserByLogin(final String login) {
-//        User result = new User();
-//        result.setUserID(-1);
-//
-//        String sql = "SELECT * FROM birthdays.users WHERE Login =" + "'" + login + "'";
-//        PreparedStatement ps = null;
-//        ResultSet rs = null;
-//        try (Connection connection = daoFactory.getConnection()) {
-//            LOGGER.info("Connect successful");
-//            LOGGER.info("Trying to get user by login : " + login);
-//            ps = connection.prepareStatement(sql);
-//            rs = ps.executeQuery();
-//            if (rs.next()) {
-//                result.setUserID(rs.getInt("UserID"));
-//                result.setUserName(rs.getString("Login"));
-//                result.setPassword(rs.getString("Password"));
-//                result.setRole(ROLE.getRoleByNumber(rs.getInt("Role")));
-//                LOGGER.info("User login is " + result.getUserName());
-//            }
-//        } catch (SQLException e) {
-//            LOGGER.error("Connect unsuccessfully");
-//            e.printStackTrace();
-//        } finally {
-//            daoFactory.closeResultSet(rs);
-//            daoFactory.closePrepareStatement(ps);
-//        }
-//
-//        return result;
-//    }
 
 }
