@@ -11,6 +11,8 @@ import ua.com.hunky.model.ROLE;
 import ua.com.hunky.model.User;
 import ua.com.hunky.repository.UserRepository;
 
+import java.util.Map;
+
 @Controller
 @SessionAttributes("user")
 public class LoginController {
@@ -25,7 +27,7 @@ public class LoginController {
     }
 
     @PostMapping("/")
-    public String login(@RequestParam String login, @RequestParam String password, Model model) {
+    public String login(@RequestParam String login, @RequestParam String password, Map<String, Object> model) {
         Iterable<User> users = userRepository.findAll();
         User sessionUser = new User();
         for (User user : users) {
@@ -35,9 +37,9 @@ public class LoginController {
         }
 
         if(!sessionUser.isUserExist()) {
-                model.addAttribute("Error", "User doesn't not exist :( Try again.");
+                model.put("Error", "User doesn't not exist :( Try again.");
         }
-        model.addAttribute("user", sessionUser);
+        model.put("user", sessionUser);
         return moveToMenu(sessionUser.getRole());
     }
 
