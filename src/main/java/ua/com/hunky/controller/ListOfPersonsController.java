@@ -19,7 +19,7 @@ public class ListOfPersonsController {
 
     @GetMapping("/listofpersons")
     private String getListOfPersons(User user, Map<String, Object> model) {
-        List<Person> persons = personRepository.findAllById(user.getId());
+        List<Person> persons = personRepository.findAllByUserID(user.getId());
         model.put("persons", persons.listIterator());
 
         return "listOfPersons";

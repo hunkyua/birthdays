@@ -47,13 +47,6 @@ public class User extends AbstractEntity {
         return this.getLogin().equals(login) && this.getPassword().equals(password);
     }
 
-    public ROLE getUserRole() {
-        if (role != null) {
-            return role;
-        }
-        return ROLE.UNKNOWN;
-    }
-
 //    public List<Person> getPersons() {
 //        return null;
 //    }
