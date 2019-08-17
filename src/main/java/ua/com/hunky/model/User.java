@@ -19,7 +19,7 @@ public class User extends AbstractEntity {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userID;
+    private Long id;
     @Column(name = "login")
     private String login = "";
     @Column(name = "password")

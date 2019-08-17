@@ -30,7 +30,7 @@ public class AddPersonController {
         surname = surname == null ? "" : surname.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
         User user = (User) model.get("user");
-        List<Person> persons = personRepository.findAllByUserID(user.getUserID());
+        List<Person> persons = personRepository.findAllById(user.getId());
 
         if (email.isEmpty() || dateOfBirth == null) {
             return "addPerson";
@@ -56,7 +56,7 @@ public class AddPersonController {
             return "addPerson";
         }
 
-        Person newPerson = new Person(name, surname, email, dateOfBirth, user.getUserID());
+        Person newPerson = new Person(name, surname, email, dateOfBirth, user.getId());
         personRepository.save(newPerson);
         model.put("Alert", "Person " + name + " successfully created");
 

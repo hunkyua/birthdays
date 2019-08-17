@@ -24,7 +24,7 @@ public class Birthdays {
         System.out.println("************************************************   PERSONS     ******************************************");
         System.out.println("*********************************************************************************************************");
         personList.forEach(p -> System.out.println(
-                "PersonID : " + p.getPersonID() + " | " +
+                "PersonID : " + p.getId() + " | " +
                         "Name : " + p.getName() + " | " +
                         "Surname : " + p.getSurname() + " | " +
                         "Email : " + p.getEmail() + " | " +

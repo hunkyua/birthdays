@@ -18,7 +18,7 @@ public class Person {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long personID;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
@@ -27,7 +27,7 @@ public class Person {
     private String email;
     @Column(name = "dateOfBirth")
     private Date dateOfBirth;
-    @Column(name = "userID")
+    @Column(name = "userId")
     private Long userID;
 
     public Person() {
@@ -48,9 +48,9 @@ public class Person {
         this.userID = userID;
     }
 
-    public Person(Long personID, String name, String surname, String email, Date dateOfBirth, Long userID) {
+    public Person(Long id, String name, String surname, String email, Date dateOfBirth, Long userID) {
         this(name, surname, email, dateOfBirth, userID);
-        this.personID = personID;
+        this.id = id;
     }
 
 }

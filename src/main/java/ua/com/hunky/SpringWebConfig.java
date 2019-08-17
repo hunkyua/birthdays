@@ -58,32 +58,32 @@ public class SpringWebConfig implements WebMvcConfigurer {
         resolver.setDefaultLocale(Locale.ENGLISH);
         return resolver;
     }
-//
-//    @Bean
-//    public ITemplateResolver templateResolver() {
-//        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-//        resolver.setPrefix("classpath:/templates/");
-//        resolver.setSuffix(".html");
-//        resolver.setTemplateMode("HTML5");
-//        resolver.setCacheable(false);
-//        return resolver;
-//    }
-//
-//    @Bean
-//    public SpringTemplateEngine templateEngine(){
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver());
-//        templateEngine.setEnableSpringELCompiler(true);
-//        return templateEngine;
-//    }
-//
-//    @Bean
-//    public ThymeleafViewResolver viewResolver(){
-//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-//        viewResolver.setTemplateEngine(templateEngine());
-//        viewResolver.setOrder(1);
-//        viewResolver.setViewNames(new String[] {".html", ".xhtml"});
-//        return viewResolver;
-//    }
+
+    @Bean
+    public ITemplateResolver templateResolver() {
+        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
+        resolver.setPrefix("classpath:/templates/");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        resolver.setCacheable(false);
+        return resolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine(){
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
+
+    @Bean
+    public ThymeleafViewResolver viewResolver(){
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setOrder(1);
+        viewResolver.setViewNames(new String[] {".html", ".xhtml"});
+        return viewResolver;
+    }
 
 }
