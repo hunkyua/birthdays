@@ -6,21 +6,22 @@
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 <body class="registration">
-<div class="form">
-    <h1>Welcome to registration on Birthdays App :)</h1>
-    <form th:action="@{doRegistration}" method="post">
+<div id="wrapper">
+    <h1 class="">Welcome to registration on Birthdays App :)</h1>
+    <form id="registration" th:action="@{doRegistration}" method="post" autocomplete="off">
         <input type="text" name="login" placeholder="login" required><br>
         <input type="text" name="password" placeholder="password" required> <br>
-        <input type="submit" value="Enter">
+        <button type="submit">&#xf0da;</button>
     </form>
+    <p class="error" th:text="${Error}"></p>
+    <br><br>
+    <div class="back">
+        <a th:href="@{/}">
+            <button>Go Back</button>
+        </a>
+    </div>
 </div>
-<p class="error" th:text="${Error}"></p>
-<br><br>
-<div class="back">
-    <a th:href="@{/}">
-        <button>Go Back</button>
-    </a>
-</div>
+
 </body>
 <footer> Hunky_UA <br> Copyright © 2019</footer>
 </html>

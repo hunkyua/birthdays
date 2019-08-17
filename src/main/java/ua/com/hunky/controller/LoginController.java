@@ -20,9 +20,9 @@ public class LoginController {
     UserRepository userRepository;
 
     @GetMapping("/")
-    public String enter(Model model){
-        model.addAttribute("Error", "");
-        model.addAttribute("Alert", "");
+    public String enter( Map<String, Object> model){
+        model.put("Error", "");
+        model.put("Alert", "");
         return "index";
     }
 
