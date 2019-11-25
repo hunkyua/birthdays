@@ -7,7 +7,7 @@
 </head>
 <body>
 <p class="addPersonText">Fill the form for add a new Person</p>
-<form id="addPerson" action="createperson" method="post">
+<form id="addPerson" th:action="@{/createperson}" method="post">
     <label>
         <input class="name" type="text" name="name" placeholder="Name"/>
     </label><br>

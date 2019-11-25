@@ -4,44 +4,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.hunky.model.ROLE;
+import ua.com.hunky.model.Role;
 import ua.com.hunky.model.User;
-import ua.com.hunky.repository.UserRepository;
+import ua.com.hunky.repository.UserRepo;
 
+import java.util.Collections;
 import java.util.Map;
 
 
 @Controller
 public class RegistrationController {
     @Autowired
-    UserRepository userRepository;
-
-    @PostMapping("/doRegistration")
-    private String registerNewUser(@RequestParam String login, @RequestParam String password, Map<String, Object> model) {
-        login = login == null ? "" : login.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        password = password == null ? "" : password.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        Iterable<User> users = userRepository.findAll();
-
-        for (User user : users) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                model.put("Error", "Sorry login is already exist!");
-                return "registration";
-            } else {
-                if (login.isEmpty() && password.isEmpty()) {
-                    return "registration";
-                }
-            }
-        }
-
-        User newUser = new User(login, password, ROLE.USER);
-        userRepository.save(newUser);
-        model.put("Alert", "User " + login + " was added");
-        return "index";
-    }
+    UserRepo userRepo;
 
     @GetMapping("/registration")
-    private String registerNewUser() {
+    private String registration() {
         return "registration";
     }
+
+    @PostMapping("/registration")
+    private String addUser(User user, Map<String, Object> model) {
+        User userFromDb = userRepo.findByUsername(user.getUsername());
+
+        if (userFromDb != null) {
+            model.put("Error", "User " + userFromDb.getUsername() + " already exists!");
+            return "registration";
+        }
+
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepo.save(user);
+        model.put("Alert", "User " + user.getUsername() + " was added");
+        return "redirect:/login";
+    }
+
+
 }

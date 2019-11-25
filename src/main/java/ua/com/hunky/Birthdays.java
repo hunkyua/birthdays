@@ -5,17 +5,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import ua.com.hunky.model.Person;
 
 import java.util.List;
 
 @SpringBootApplication
-@EnableJpaAuditing
 @ComponentScan(basePackages = { "ua.com.hunky" }, excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION) })
 public class Birthdays {
 
     public static void main(String[] args) {
+        //SpringApplication.run(Birthdays.class, args);
         ConfigurableApplicationContext context = SpringApplication.run(Birthdays.class, args);
     }
 

@@ -5,16 +5,7 @@
     <title th:text="#{index.title}"></title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#locales").change(function () {
-                var selectedOption = $('#locales').val();
-                if (selectedOption !== ''){
-                    window.location.replace('?lang=' + selectedOption);
-                }
-            });
-        });
-    </script>
+    <script type="text/javascript" th:src="@{/js/localization.js}"></script>
 </head>
 <body class="login">
 
@@ -23,8 +14,8 @@
 
     <div id="wrapper">
         <h1 th:text="#{index.appNaming}"></h1>
-        <form id="signin" action="#" th:action="@{/}" method="post" autocomplete="off">
-            <input type="text" id="login" name="login" th:placeholder="#{index.login}" required/>
+        <form id="signin" th:action="@{/login}" th:method="post" autocomplete="off">
+            <input type="text" id="login" name="username" th:placeholder="#{index.username}" required/>
             <input type="password" id="password" name="password" th:placeholder="#{index.password}" required/>
             <button type="submit">&#xf0da;</button>
             <div>

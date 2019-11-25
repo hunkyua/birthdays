@@ -1,8 +1,8 @@
 package ua.com.hunky.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.com.hunky.model.User;
 
@@ -11,10 +11,9 @@ import ua.com.hunky.model.User;
 public class BackController {
 
     @GetMapping("/backFromListOfPersons")
-    private String back(@ModelAttribute("user") User user) {
-        switch (user.getRole()) {
-            case USER : return "user_menu";
-            case ADMIN : return  "admin_menu";
+    private String back(@AuthenticationPrincipal User user) {
+        switch (user.getRoles().iterator().next().name()) {
+            case "USER" : return "menu";
             default: return "index";
         }
     }

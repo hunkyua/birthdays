@@ -4,16 +4,20 @@
     <title>Birthdays</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
+    <script type="text/javascript" th:src="@{/js/localization.js}"></script>
 </head>
 <body class="registration">
+<a href="?lang=en" methods="get">English</a>
+<a href="?lang=ru" methods="get">Русский</a>
 <div id="wrapper">
     <h1 class="">Welcome to registration on Birthdays App :)</h1>
-    <form id="registration" th:action="@{doRegistration}" method="post" autocomplete="off">
-        <input type="text" name="login" placeholder="login" required><br>
+    <form id="registration" th:action="@{registration}" method="post" autocomplete="off">
+        <input type="text" name="username" placeholder="username" required><br>
         <input type="text" name="password" placeholder="password" required> <br>
         <button type="submit">&#xf0da;</button>
     </form>
     <p class="error" th:text="${Error}"></p>
+    <p class="alert" th:text="${Alert}"></p>
     <br><br>
     <div class="back">
         <a th:href="@{/}">

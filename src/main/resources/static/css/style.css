@@ -54,7 +54,7 @@ p.error {
 }
 
 .alert {
-    color: #18ff33;
+    color: #ff8607;
 }
 
 #addPerson input[type="text"], #addPerson input[type="submit"], #addPerson input[type="date"]{
@@ -200,15 +200,9 @@ form {
 
 .menu{
     text-align: center;
-}
-
-.user_menu{
     background: rgb(52, 56, 61);
 }
 
-.admin_menu{
-    background: rgb(52, 56, 61);
-}
 .addPersonText{
     color: orangered;
 }

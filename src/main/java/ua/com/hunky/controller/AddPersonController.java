@@ -1,6 +1,7 @@
 package ua.com.hunky.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.com.hunky.model.Person;
 import ua.com.hunky.model.User;
-import ua.com.hunky.repository.PersonRepository;
+import ua.com.hunky.repository.PersonRepo;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -22,15 +23,14 @@ import java.util.Map;
 @SessionAttributes("user")
 public class AddPersonController {
     @Autowired
-    PersonRepository personRepository;
+    PersonRepo personRepo;
 
     @PostMapping("/createperson")
-    private String createPerson(@RequestParam String name, @RequestParam String surname, @RequestParam String email,@RequestParam Date dateOfBirth,  Map<String, Object> model) {
+    private String createPerson(@AuthenticationPrincipal User user , @RequestParam String name, @RequestParam String surname, @RequestParam String email, @RequestParam Date dateOfBirth, Map<String, Object> model) {
         name = name == null ? "" : name.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         surname = surname == null ? "" : surname.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
-        User user = (User) model.get("user");
-        List<Person> persons = personRepository.findAllByUserID(user.getId());
+        List<Person> persons = personRepo.findAllByUserID(user.getId());
 
         if (email.isEmpty() || dateOfBirth == null) {
             return "addPerson";
@@ -57,7 +57,7 @@ public class AddPersonController {
         }
 
         Person newPerson = new Person(name, surname, email, dateOfBirth, user.getId());
-        personRepository.save(newPerson);
+        personRepo.save(newPerson);
         model.put("Alert", "Person " + name + " successfully created");
 
         return "addPerson";

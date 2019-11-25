@@ -4,9 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.dom4j.tree.AbstractEntity;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 
 @Component
@@ -15,41 +19,54 @@ import javax.persistence.*;
 @Scope("prototype")
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
-    private static final long serialVersionUID = 1L;
+public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "login")
-    private String login = "";
+    @Column(name = "username")
+    private String username;
     @Column(name = "password")
-    private String password = "";
-    @Column(name = "role")
-    private ROLE role = ROLE.UNKNOWN;
-
-//    List<Person> person;
+    private String password;
+    @Column(name = "active")
+    private boolean active;
+    @Column(name = "roles")
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String login, String password, ROLE role) {
-        this.login = login;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
-        this.role = role;
     }
 
-    public boolean isUserExist() {
-        if ((this.getLogin() == null || this.getLogin().isEmpty()) &&
-                (this.getPassword() == null || this.getPassword().isEmpty())) {
-            return false;
-        }
-
-        return this.getLogin().equals(login) && this.getPassword().equals(password);
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
-//    public List<Person> getPersons() {
-//        return null;
-//    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive();
+    }
 }
 
 

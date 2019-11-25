@@ -7,7 +7,7 @@ import ua.com.hunky.model.Person;
 import java.util.List;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
+public interface PersonRepo extends JpaRepository<Person, Long> {
 
     List<Person> findAllByUserID(Long id);
 
