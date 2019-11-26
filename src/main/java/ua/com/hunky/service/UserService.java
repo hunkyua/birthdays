@@ -40,8 +40,15 @@ public class UserService implements UserDetailsService {
 
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to Birthday's App. Please visit next link: http://localhost:8080/activate/%s",
+
+            "Hello, %s, \n" +
+            "Thanks for joining BirthdaysApp! Please confirm your email address and activate your account by clicking this link: \n\n" +
+            "http://localhost:8080/activate/%s \n\n" +
+            "If you have any trouble with your account, you can always email us at birthdaysapp.ua@gmail.com.\n" +
+            "Regards, \n" +
+            "The BirthdaysApp team. \n" +
+            "If you didn't register for BirthdaysApp, please ignore this message."  ,
+
                     user.getUsername(),
                     user.getActivationCode()
             );
