@@ -2,20 +2,20 @@ package ua.com.hunky.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import ua.com.hunky.model.Role;
 import ua.com.hunky.model.User;
-import ua.com.hunky.repository.UserRepo;
+import ua.com.hunky.service.UserService;
 
-import java.util.Collections;
 import java.util.Map;
 
 
 @Controller
 public class RegistrationController {
     @Autowired
-    UserRepo userRepo;
+    UserService userService;
 
     @GetMapping("/registration")
     private String registration() {
@@ -24,18 +24,26 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     private String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
-
-        if (userFromDb != null) {
-            model.put("Error", "User " + userFromDb.getUsername() + " already exists!");
+        if (!userService.addUser(user)) {
+            model.put("Error", "User " + user.getUsername() + " already exists!");
             return "registration";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
         model.put("Alert", "User " + user.getUsername() + " was added");
         return "redirect:/login";
+    }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code) {
+        boolean isActivated = userService.activateUser(code);
+
+        if (isActivated) {
+            model.addAttribute("Alert", "User successfully activated");
+        } else {
+            model.addAttribute("Error", "Activation code is not found");
+        }
+
+        return "login";
     }
 
 

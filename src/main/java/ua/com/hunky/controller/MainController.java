@@ -25,6 +25,10 @@ public class MainController {
         if (user != null){
             User userfromDb = userRepo.findByUsername(user.getUsername());
             if (userfromDb != null) {
+                if (userfromDb.getActivationCode() != null) {
+                    model.put("Error", "User is not activated");
+                    return "login";
+                }
                 model.put("user", user);
                 return "menu";
             }

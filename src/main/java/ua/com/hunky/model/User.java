@@ -20,6 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,6 +30,10 @@ public class User implements UserDetails {
     private String password;
     @Column(name = "active")
     private boolean active;
+
+    private String email;
+    private String activationCode;
+
     @Column(name = "roles")
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

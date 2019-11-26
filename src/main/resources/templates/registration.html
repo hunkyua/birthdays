@@ -10,10 +10,11 @@
 <a href="?lang=en" methods="get">English</a>
 <a href="?lang=ru" methods="get">Русский</a>
 <div id="wrapper">
-    <h1 class="">Welcome to registration on Birthdays App :)</h1>
+    <h1 th:text="#{registration.greetings}"></h1>
     <form id="registration" th:action="@{registration}" method="post" autocomplete="off">
-        <input type="text" name="username" placeholder="username" required><br>
-        <input type="text" name="password" placeholder="password" required> <br>
+        <input type="text" name="username" th:placeholder="#{index.username}" required><br>
+        <input type="text" name="password" th:placeholder="#{index.password}" required> <br>
+        <input type="email" id="email" name="email" th:placeholder="#{index.email}" required/>
         <button type="submit">&#xf0da;</button>
     </form>
     <p class="error" th:text="${Error}"></p>
@@ -21,7 +22,7 @@
     <br><br>
     <div class="back">
         <a th:href="@{/}">
-            <button>Go Back</button>
+            <button th:text="#{registration.back}"></button>
         </a>
     </div>
 </div>

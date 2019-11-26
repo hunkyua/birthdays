@@ -54,7 +54,7 @@ p.error {
 }
 
 .alert {
-    color: #ff8607;
+    color: #18ff33;
 }
 
 #addPerson input[type="text"], #addPerson input[type="submit"], #addPerson input[type="date"]{
@@ -89,6 +89,10 @@ p.error {
     top: 44px;
     margin-left: 20px;
     z-index: 1;
+}
+#signin input:nth-of-type(2){
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 #signin input:first-of-type{
     border-top-right-radius: 8px;
@@ -237,6 +241,22 @@ footer {
     z-index: 1;
 }
 
+#registration::after {
+    display: block;
+    position: relative;
+    height: 2px;
+    background: rgb(52, 56, 61);
+    content: '';
+    top: -44px;
+    margin-left: 20px;
+    z-index: 1;
+}
+
+#registration input:nth-of-type(2){
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
 #registration input:first-of-type{
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
@@ -247,13 +267,13 @@ footer {
     border-bottom-left-radius: 8px;
 }
 
-#registration  input[type="text"], #registration  input[type="text"], #registration button[type="submit"]{
+#registration  input[type="text"], #registration  input[type="text"], #registration button[type="submit"], #registration input[type="email"]{
     background: rgb(28, 30, 33);
     box-shadow: inset -100px -100px 0 rgb(28, 30, 33); /*Prevent yellow autofill color*/
     color: rgb(52, 56, 61);
 }
 
-#registration input[type="text"], #registration input[type="text"]{
+#registration input[type="text"], #registration input[type="text"], #registration input[type="email"]{
     position: relative;
     /*display: block;*/
     width: 300px;
@@ -265,7 +285,7 @@ footer {
     font-weight: 700;
 }
 
-#registration input[type="text"]:focus, #registration input[type="text"]:focus{
+#registration input[type="text"]:focus, #registration input[type="text"]:focus, #registration input[type="email"]:focus{
     color: rgb(255, 255, 255);
 }
 
@@ -273,12 +293,12 @@ footer {
     display: block;
     position: absolute;
     width: 52px;
-    height: 52px;
+    height: 51px;
     color: rgb(52, 56, 61);
     border-radius: 50px;
     outline: 0;
     z-index: 2;
-    top: 19px;
+    top: 44px;
     right: -24px;
     border: 6px solid rgb(52, 56, 61);
     font-size: 25px;

@@ -15,6 +15,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "persons")
 public class Person {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

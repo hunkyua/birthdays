@@ -12,10 +12,10 @@ public class BackController {
 
     @GetMapping("/backFromListOfPersons")
     private String back(@AuthenticationPrincipal User user) {
-        switch (user.getRoles().iterator().next().name()) {
-            case "USER" : return "menu";
-            default: return "index";
+        if ("USER".equals(user.getRoles().iterator().next().name())) {
+            return "menu";
         }
+        return "login";
     }
 
 }
