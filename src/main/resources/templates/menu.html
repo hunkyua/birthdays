@@ -7,9 +7,9 @@
 <body class="menu">
 <h1 th:text="'Hello ' + ${user.getUsername()}"></h1>
 <div class="menu">
-    <a th:href="@{listofpersons}"><button>List of Persons</button></a><br><br><br>
+    <a th:href="@{listofpersons}"><button class="button">List of Persons</button></a><br><br><br>
     <form th:action="@{/logout}" method="post">
-        <button th:type="submit">Logout</button>
+        <button class="button" th:type="submit">Logout</button>
     </form>
 </div>
 </body>

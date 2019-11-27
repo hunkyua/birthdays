@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Controller
 @SessionAttributes("user")
-public class AddPersonController {
+public class PersonController {
     @Autowired
     PersonRepo personRepo;
 
@@ -32,12 +32,12 @@ public class AddPersonController {
         Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
         List<Person> persons = personRepo.findAllByUserID(user.getId());
 
-        if (email.isEmpty() || dateOfBirth == null) {
+        if (dateOfBirth == null) {
             return "addPerson";
         }
 
         for (Person personDB : persons) {
-            if (personDB.getEmail().contains(email)) {
+            if (personDB.getEmail().equals(email) && !email.isBlank()) {
                 model.put("Error", "Email \"" + email +"\" already exist");
                 return "addPerson";
             }
@@ -66,6 +66,28 @@ public class AddPersonController {
     @GetMapping("/addperson")
     private String moveToAddPerson() {
         return "addPerson";
+    }
+
+    @GetMapping("/listofpersons")
+    private String listOfPersons(@AuthenticationPrincipal User user, Map<String, Object> model) {
+        List<Person> persons = personRepo.findAllByUserID(user.getId());
+        model.put("persons", persons.listIterator());
+
+        return "listOfPersons";
+    }
+
+    @PostMapping("/removepersons")
+    private String removepersons(@RequestParam(value = "isChecked", required = false) List<Long> personId) {
+        if (personId != null) {
+            for (Long id : personId) {
+                Person person = personRepo.findPersonById(id);
+                if (person != null) {
+                    personRepo.delete(person);
+                }
+            }
+        }
+
+        return "redirect:listofpersons";
     }
 
 }

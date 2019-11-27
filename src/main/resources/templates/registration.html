@@ -7,8 +7,9 @@
     <script type="text/javascript" th:src="@{/js/localization.js}"></script>
 </head>
 <body class="registration">
-<a href="?lang=en" methods="get">English</a>
-<a href="?lang=ru" methods="get">Русский</a>
+<a class="en" href="?lang=en" methods="get">English</a>
+<a class="ru" href="?lang=ru" methods="get">Русский</a>
+
 <div id="wrapper">
     <h1 th:text="#{registration.greetings}"></h1>
     <form id="registration" th:action="@{registration}" method="post" autocomplete="off">
@@ -22,7 +23,7 @@
     <br><br>
     <div class="back">
         <a th:href="@{/}">
-            <button th:text="#{registration.back}"></button>
+            <button class="button" th:text="#{registration.back}"></button>
         </a>
     </div>
 </div>

@@ -9,25 +9,25 @@
 <p class="addPersonText">Fill the form for add a new Person</p>
 <form id="addPerson" th:action="@{/createperson}" method="post">
     <label>
-        <input class="name" type="text" name="name" placeholder="Name"/>
+        <input class="name" type="text" name="name" placeholder="Name" required />
     </label><br>
     <label>
-        <input class="surname" type="text" name="surname" placeholder="Surname"/>
+        <input class="surname" type="text" name="surname" placeholder="Surname" required/>
     </label><br>
     <label>
         <input class="email" type="text" name="email" placeholder="Email"/>
     </label><br>
     <label>
-        <input class="date" type="date" name="dateOfBirth"/>
+        <input class="date" type="date" name="dateOfBirth" required/>
     </label><br><br>
-    <input type="submit" value="Create Person">
+    <input  class="button" type="submit" value="Create Person">
 </form>
 <p class="error" th:text="${Error}"></p>
 <p class="alert" th:text="${Alert}"></p>
 <br><br>
 <div class="back">
     <a th:href="@{listofpersons}">
-        <button>Go Back</button>
+        <button class="button">Go Back</button>
     </a>
 </div>
 </body>

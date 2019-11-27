@@ -39,6 +39,15 @@ button {
     border-bottom-right-radius: 75px;
     border-bottom-left-radius: 75px;
 }
+
+.button:hover {
+    background: #2b2925;
+    color: white;
+    border-top-left-radius: 75px;
+    border-top-right-radius: 75px;
+    border-bottom-right-radius: 75px;
+    border-bottom-left-radius: 75px;
+}
 body{
     background: rgb(52, 56, 61);
     padding: 80px;
@@ -169,12 +178,21 @@ p.error {
     text-decoration: none;
 }
 
-a{
+a.en{
+    color: rgb(36, 121, 71);
+    text-decoration: none;
+}
+a.ru{
     color: rgb(36, 121, 71);
     text-decoration: none;
 }
 
-a:hover{
+a.en:hover {
+    color: rgba(255, 249, 180, 0.93);
+    border-bottom: 1px solid;
+}
+
+a.ru:hover{
     color: rgba(255, 249, 180, 0.93);
     border-bottom: 1px solid;
 }
@@ -336,4 +354,15 @@ footer {
 
 #wrapper h1 {
     font-size: 1em;
+}
+
+tr.highlight td {
+    background-color: #a5cc9f;
+}
+
+
+#removeButton {
+    display: none;
+    position: fixed;
+    margin: 8px;
 }
