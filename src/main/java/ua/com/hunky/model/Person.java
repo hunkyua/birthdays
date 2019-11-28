@@ -33,7 +33,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, String surname, String email, Date dateOfBirth) {
+    public Person(Long id, String name, String surname, String email, Date dateOfBirth) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -47,10 +48,4 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
         this.userID = userID;
     }
-
-    public Person(Long id, String name, String surname, String email, Date dateOfBirth, Long userID) {
-        this(name, surname, email, dateOfBirth, userID);
-        this.id = id;
-    }
-
 }
