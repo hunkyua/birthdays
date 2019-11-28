@@ -363,6 +363,4 @@ tr.highlight td {
 
 #removeButton {
     display: none;
-    position: fixed;
-    margin: 8px;
 }

@@ -1,6 +1,5 @@
 package ua.com.hunky.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +14,11 @@ import java.util.Map;
 @Controller
 @SessionAttributes("user")
 public class MainController {
-    @Autowired
-    UserRepo userRepo;
+    private final UserRepo userRepo;
+
+    public MainController(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/")
     public String enter(@AuthenticationPrincipal User user, Map<String, Object> model){

@@ -9,9 +9,11 @@
     <script type="text/javascript" th:src="@{/js/showHideRemoveButton.js}"></script>
 </head>
 <body>
+<div>
 <a th:href="@{addperson}"><button class="button">Add Person</button></a>
-<form th:action="@{removepersons}" method="post">
-<button id="removeButton" class="button">Remove</button>
+<a><button type="submit" form="persons" id="removeButton" class="button">Remove</button></a>
+</div>
+<form id="persons" th:action="@{removepersons}" method="post">
 <table id="personTable" class="persons">
     <tr>
         <th></th>
@@ -22,7 +24,7 @@
         <th>DateOfBirth</th>
     </tr>
     <tr id="trs" th:each="person,iter  : ${persons}">
-        <td><input type="checkbox" id="personCheckbox" name="isChecked" th:value="${person.id}"/></td>
+        <td style="width: 2%"><input type="checkbox" id="personCheckbox" name="isChecked" th:value="${person.id}"/></td>
         <td id="loop" th:text="${iter.count}"></td>
         <td th:text="${person.name}"></td>
         <td th:text="${person.surname}"></td>

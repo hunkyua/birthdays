@@ -5,7 +5,7 @@ $(function(){
         if (checkedChbx.length > 0)
         {
             $('#removeButton').show();
-            $('#removeButton').css("display", "block");
+            $('#removeButton').css("display", "inline-block");
         }
         else
         {
@@ -18,7 +18,7 @@ $(function(){
         if (checkedChbx.length > 0)
         {
             $('#removeButton').show();
-            $('#removeButton').css("display", "block");
+            $('#removeButton').css("display", "inline-block");
         }
         else
         {

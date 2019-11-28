@@ -1,6 +1,5 @@
 package ua.com.hunky.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,11 @@ import java.util.Map;
 @Controller
 @SessionAttributes("user")
 public class PersonController {
-    @Autowired
-    PersonRepo personRepo;
+    private final PersonRepo personRepo;
+
+    public PersonController(PersonRepo personRepo) {
+        this.personRepo = personRepo;
+    }
 
     @PostMapping("/createperson")
     private String createPerson(@AuthenticationPrincipal User user , @RequestParam String name, @RequestParam String surname, @RequestParam String email, @RequestParam Date dateOfBirth, Map<String, Object> model) {
