@@ -20,4 +20,22 @@ public class BackController {
         return "login";
     }
 
+    @GetMapping("/backFromExportImport")
+    private String backFromExportImport(@AuthenticationPrincipal User user, Model model) {
+        if ("USER".equals(user.getRoles().iterator().next().name())) {
+            model.addAttribute("user", user);
+            return "menu";
+        }
+        return "login";
+    }
+
+    @GetMapping("/backFromImport")
+    private String backFromImport(@AuthenticationPrincipal User user, Model model) {
+        if ("USER".equals(user.getRoles().iterator().next().name())) {
+            model.addAttribute("user", user);
+            return "exportImport";
+        }
+        return "login";
+    }
+
 }

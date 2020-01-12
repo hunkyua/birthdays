@@ -1,5 +1,6 @@
 package ua.com.hunky.service;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.com.hunky.model.Person;
@@ -40,5 +41,10 @@ public class ExcelPersonExportAndImport extends AbstractXlsView {
             cell.setCellValue(person.getDateOfBirth());
 
         }
+    }
+
+    @Override
+    protected Workbook createWorkbook(Map<String, Object> model, HttpServletRequest request) {
+        return new HSSFWorkbook();
     }
 }
