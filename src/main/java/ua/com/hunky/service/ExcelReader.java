@@ -9,7 +9,6 @@ import ua.com.hunky.repository.PersonRepo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
@@ -29,15 +28,11 @@ public class ExcelReader {
     }
 
     public void ReadXLSX() {
-        if (!FILE_NAME.contains(".xls") && !FILE_NAME.contains(".xlsx")) {
-            return;
-        }
         try {
             FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
-            Workbook workbook = null;
-            if (FILE_NAME.contains(".xls")) {
-                workbook = new HSSFWorkbook(excelFile);
-            } else if (FILE_NAME.contains(".xlsx")) {
+            //By default works with .xls files
+            Workbook workbook = new HSSFWorkbook(excelFile);
+            if (FILE_NAME.contains(".xlsx")) {
                 workbook = new XSSFWorkbook(excelFile);
             }
             Sheet datatypeSheet = workbook.getSheetAt(0);
@@ -80,8 +75,6 @@ public class ExcelReader {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

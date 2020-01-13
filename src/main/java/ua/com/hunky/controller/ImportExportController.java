@@ -55,14 +55,22 @@ public class ImportExportController {
 
     @PostMapping("/importPersons")
     public String importPersons(@RequestParam MultipartFile file, @AuthenticationPrincipal User user, Map<String, Object> model) throws IOException {
-        if (!file.isEmpty()) {
-            File convFile = new File(file.getOriginalFilename());
+        if (file.isEmpty()) {
+            model.put("Error", "You didn't choose a file");
+            return "exportImport";
+        }
+        var fileName = file.getOriginalFilename();
+        if (fileName.contains(".xls") || fileName.contains(".xlsx")) {
+            File convFile = new File(fileName);
             FileOutputStream fos = new FileOutputStream(convFile);
             fos.write(file.getBytes());
             fos.close();
 
             ExcelReader er = new ExcelReader(convFile, personRepo, user);
             er.ReadXLSX();
+            model.put("Alert", "Data successfully imported");
+        } else {
+            model.put("Error", "Only .xls and .xlsx files available");
         }
 
         return "exportImport";

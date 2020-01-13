@@ -2,7 +2,6 @@ package ua.com.hunky.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.dom4j.tree.AbstractEntity;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

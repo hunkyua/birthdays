@@ -7,6 +7,7 @@
 </head>
 <body>
 <div class="menu">
+<div class="export">
     <p>Export</p>
     <form id="export" th:action="@{/exportPersons}" method="get">
     <input type="submit" name="file-5[]" id="file-1" class="inputfile inputfile-4"/>
@@ -19,8 +20,10 @@
     </figure>
     </label>
     </form>
-    <form id="import" th:action="@{/importPersons}" method="post" enctype="multipart/form-data">
+</div>
+<div class="import">
     <p>Import</p>
+    <form id="import" th:action="@{/importPersons}" method="post" enctype="multipart/form-data">
     <input type="file" name="file" id="file-5" class="inputfile inputfile-4" data-multiple-caption="{count} files selected" multiple />
     <label for="file-5">
         <figure>
@@ -35,11 +38,14 @@
     <br><br><br>
     <script type="text/javascript" th:src="@{/js/custom-file-input.js}"></script>
 </div>
+<p class="error" th:text="${Error}"></p>
+<p class="alert" th:text="${Alert}"></p>
 <br><br><br>
 <div class="back">
     <a th:href="@{backFromExportImport}">
         <button class="button">Go Back</button>
     </a>
+</div>
 </div>
 </body>
 </html>

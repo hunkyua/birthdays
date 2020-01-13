@@ -54,6 +54,7 @@ public class UserService implements UserDetailsService {
             );
             mailSender.send(user.getEmail(), "Activation code", message);
         }
+
         return true;
     }
 

@@ -533,3 +533,16 @@ tr.highlight td {
     height: 100%;
     fill: #f1e5e6;
 }
+
+.export {
+    display: inline-block;
+    float: left;
+    width: 50%;
+}
+
+.import {
+    display: inline-block;
+    float: left;
+    width: 50%;
+
+}
