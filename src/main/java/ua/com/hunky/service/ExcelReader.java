@@ -27,7 +27,7 @@ public class ExcelReader {
         this.user = user;
     }
 
-    public void ReadXLSX() {
+    public void readExcelFile() {
         try {
             FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
             //By default works with .xls files

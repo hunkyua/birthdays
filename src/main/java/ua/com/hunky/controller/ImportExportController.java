@@ -17,19 +17,22 @@ import javax.servlet.annotation.MultipartConfig;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.stream.Collectors.*;
+import static ua.com.hunky.controller.ImportExportController.*;
+
 @Controller
-@MultipartConfig(location="/tmp", fileSizeThreshold=1024*1024,
-        maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
+@MultipartConfig(location = "/tmp", fileSizeThreshold = MEGA,
+        maxFileSize = 5L * MEGA, maxRequestSize = 25L * MEGA)
 public class ImportExportController {
 
-    private final PersonRepo personRepo;
+    static final int MEGA = 1024 * 1024;
+    private final PersonRepo repo;
 
-    public ImportExportController(PersonRepo personRepo) {
-        this.personRepo = personRepo;
+    public ImportExportController(PersonRepo repo) {
+        this.repo = repo;
     }
 
     @GetMapping("/exportImport")
@@ -38,41 +41,48 @@ public class ImportExportController {
     }
 
     @GetMapping("/exportPersons")
-    public ModelAndView exportPersons(@AuthenticationPrincipal User user){
-        List<Person> personList = new ArrayList<>();
-        List<Person> userPersons = personRepo.findAllByUserID(user.getId());
-        for (Person userPerson : userPersons) {
-            personList.add(new Person(
-                    userPerson.getId(),
-                    userPerson.getName(),
-                    userPerson.getSurname(),
-                    userPerson.getEmail(),
-                    userPerson.getDateOfBirth()
-            ));
-        }
-        return new ModelAndView(new ExcelPersonExportAndImport(), "personList", personList);
+    public ModelAndView exportPersons(@AuthenticationPrincipal User user) {
+        List<Person> persons =
+                repo.findAllByUserID(user.getId())
+                    .stream()
+                    .map(Person::new)
+                    .collect(toList());
+        return new ModelAndView(new ExcelPersonExportAndImport(), "personList", persons);
     }
 
     @PostMapping("/importPersons")
-    public String importPersons(@RequestParam MultipartFile file, @AuthenticationPrincipal User user, Map<String, Object> model) throws IOException {
+    public String importPersons(@RequestParam MultipartFile file,
+                                @AuthenticationPrincipal User user,
+                                Map<String, Object> model) throws IOException {
         if (file.isEmpty()) {
             model.put("Error", "You didn't choose a file");
             return "exportImport";
         }
-        var fileName = file.getOriginalFilename();
-        if (fileName.contains(".xls") || fileName.contains(".xlsx")) {
-            File convFile = new File(fileName);
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
 
-            ExcelReader er = new ExcelReader(convFile, personRepo, user);
-            er.ReadXLSX();
-            model.put("Alert", "Data successfully imported");
-        } else {
+        String name = file.getOriginalFilename() != null ? file.getOriginalFilename() : "";
+
+        boolean isExcelFile = name.contains(".xls") || name.contains(".xlsx");
+
+        if (!isExcelFile) {
             model.put("Error", "Only .xls and .xlsx files available");
+            return "exportImport";
         }
 
+        tryReadExcelFile(file, user, name);
+        model.put("Alert", "Data successfully imported");
+
         return "exportImport";
+    }
+
+    private void tryReadExcelFile(@RequestParam MultipartFile input,
+                                  @AuthenticationPrincipal User user,
+                                  String name) throws IOException {
+        File file = new File(name);
+        try (FileOutputStream output = new FileOutputStream(file)) {
+            output.write(input.getBytes());
+        }
+
+        ExcelReader reader = new ExcelReader(file, repo, user);
+        reader.readExcelFile();
     }
 }

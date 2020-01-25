@@ -13,8 +13,10 @@ import java.util.Map;
 public class ExcelPersonExportAndImport extends AbstractXlsView {
 
     @Override
-    protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
-                                      HttpServletResponse response) throws Exception {
+    protected void buildExcelDocument(Map<String, Object> model,
+                                      Workbook workbook,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response) {
 
         response.setHeader("Content-Disposition", "attachment;filename=\"person.xls\"");
         List<Person> personList = (List<Person>) model.get("personList");
@@ -30,7 +32,7 @@ public class ExcelPersonExportAndImport extends AbstractXlsView {
         header.createCell(4).setCellValue("DateOfBirth");
 
         int rowNum = 1;
-        for(Person person:personList){
+        for (Person person : personList) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(person.getId());
             row.createCell(1).setCellValue(person.getName());
