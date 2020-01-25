@@ -1,4 +1,3 @@
-out/
 target/
 .idea/
-postgresql.xml
+birthdays.iml
