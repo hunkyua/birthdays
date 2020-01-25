@@ -23,7 +23,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
-        return new LocaleChangeInterceptor(){{
+        return new LocaleChangeInterceptor() {{
             setParamName("lang");
         }};
     }
@@ -35,30 +35,29 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Bean
     public ResourceBundleMessageSource messageSource() {
-        return new ResourceBundleMessageSource(){{
+        return new ResourceBundleMessageSource() {{
             setBasename("messages");
             setDefaultEncoding("UTF-8");
         }};
-
     }
 
     @Override
     public Validator getValidator() {
-        return new LocalValidatorFactoryBean(){{
+        return new LocalValidatorFactoryBean() {{
             setValidationMessageSource(messageSource());
         }};
     }
 
     @Bean
     public LocaleResolver localeResolver() {
-        return new SessionLocaleResolver(){{
+        return new SessionLocaleResolver() {{
             setDefaultLocale(Locale.ENGLISH);
         }};
     }
 
     @Bean
     public ITemplateResolver templateResolver() {
-        return new SpringResourceTemplateResolver(){{
+        return new SpringResourceTemplateResolver() {{
             setPrefix("classpath:/templates/");
             setSuffix(".html");
             setTemplateMode("HTML5");
@@ -67,21 +66,20 @@ public class SpringWebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SpringTemplateEngine templateEngine(){
-        return new SpringTemplateEngine(){{
+    public SpringTemplateEngine templateEngine() {
+        return new SpringTemplateEngine() {{
             setTemplateResolver(templateResolver());
             setEnableSpringELCompiler(true);
         }};
     }
 
     @Bean
-    public ThymeleafViewResolver viewResolver(){
-        return new ThymeleafViewResolver(){{
+    public ThymeleafViewResolver viewResolver() {
+        return new ThymeleafViewResolver() {{
             setTemplateEngine(templateEngine());
             setOrder(1);
-            setViewNames(new String[] {".html", ".xhtml"});
+            setViewNames(new String[]{".html", ".xhtml"});
         }};
-
     }
 
     @Override
