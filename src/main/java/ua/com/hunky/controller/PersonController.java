@@ -11,58 +11,82 @@ import ua.com.hunky.model.User;
 import ua.com.hunky.repository.PersonRepo;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @SessionAttributes("user")
 public class PersonController {
+    private static final java.util.Date THE_BEGINNING = new GregorianCalendar(1920, Calendar.JANUARY, 1).getTime();
+    public static final SimpleDateFormat DATE = new SimpleDateFormat("yyyy/MM/dd");
     private final PersonRepo personRepo;
 
     public PersonController(PersonRepo personRepo) {
         this.personRepo = personRepo;
     }
 
-    @PostMapping("/createperson")
-    private String createPerson(@AuthenticationPrincipal User user , @RequestParam String name, @RequestParam String surname, @RequestParam String email, @RequestParam Date dateOfBirth, Map<String, Object> model) {
-        name = name == null ? "" : name.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        surname = surname == null ? "" : surname.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-        Calendar validateDateBefore = new GregorianCalendar(1920,0,1);
-        List<Person> persons = personRepo.findAllByUserID(user.getId());
+    @PostMapping("/createPerson")
+    private String createPerson(@AuthenticationPrincipal User auth,
+                                @RequestParam String name,
+                                @RequestParam String surname,
+                                @RequestParam String email,
+                                @RequestParam Date birthday,
+                                Map<String, Object> model) {
 
-        if (dateOfBirth == null) {
+
+        if (birthday == null) {
             return "addPerson";
         }
 
-        for (Person personDB : persons) {
-            if (personDB.getEmail().equals(email) && !email.isBlank()) {
-                model.put("Error", "Email \"" + email +"\" already exist");
-                return "addPerson";
-            }
+        List<Person> persons = personRepo.findAllByUserID(auth.getId());
+
+        if (isEmailAlreadyExists(persons, email)) {
+            model.put("Error", "Email \"" + email + "\" already exist");
+            return "addPerson";
         }
 
-        java.util.Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy/MM/dd").parse(String.valueOf(dateOfBirth).replace("-", "/"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date sqlDate = new Date(date != null ? date.getTime() : 0);
+        Date sqlDate = new Date(birthday.getTime());
 
-        if (sqlDate.before(validateDateBefore.getTime()) || sqlDate.after(Calendar.getInstance().getTime())) {
+        if (!isValid(sqlDate)) {
             model.put("Error", "Wrong data inside field \"Date of birth\"");
             return "addPerson";
         }
 
-        Person newPerson = new Person(name, surname, email, dateOfBirth, user.getId());
+        Person newPerson = new Person(parse(name), parse(surname), email, birthday, auth.getId());
         personRepo.save(newPerson);
         model.put("Alert", "Person " + name + " successfully created");
 
         return "addPerson";
+    }
+
+    private boolean isEmailAlreadyExists(List<Person> persons, String email) {
+        return persons.stream()
+                .anyMatch(p -> p.isEmailAlreadyExists(email));
+    }
+
+    private boolean isValid(Date date) {
+        if (date.before(THE_BEGINNING)) {
+            return false;
+        }
+
+        if (date.after(now())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private java.util.Date now() {
+        return Calendar.getInstance().getTime();
+    }
+
+    private String parse(@RequestParam String value) {
+        if (value == null) {
+            return "";
+        }
+
+        return value.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;");
     }
 
     @GetMapping("/addperson")
@@ -71,23 +95,23 @@ public class PersonController {
     }
 
     @GetMapping("/listofpersons")
-    private String listOfPersons(@AuthenticationPrincipal User user, Map<String, Object> model) {
-        List<Person> persons = personRepo.findAllByUserID(user.getId());
-        model.put("persons", persons.listIterator());
+    private String listOfPersons(@AuthenticationPrincipal User auth, Map<String, Object> model) {
+        List<Person> persons = personRepo.findAllByUserID(auth.getId());
 
+        model.put("persons", persons.listIterator());
         return "listOfPersons";
     }
 
-    @PostMapping("/removepersons")
-    private String removepersons(@RequestParam(value = "isChecked", required = false) List<Long> personId) {
-        if (personId != null) {
-            for (Long id : personId) {
-                Person person = personRepo.findPersonById(id);
-                if (person != null) {
-                    personRepo.delete(person);
-                }
-            }
+    @PostMapping("/removePersons")
+    private String removePersons(@RequestParam(value = "isChecked", required = false) List<Long> ids) {
+        if (ids == null) {
+            return "redirect:listofpersons";
         }
+
+        ids.stream()
+                .map(personRepo::findPersonById)
+                .filter(Objects::nonNull)
+                .forEach(personRepo::delete);
 
         return "redirect:listofpersons";
     }
