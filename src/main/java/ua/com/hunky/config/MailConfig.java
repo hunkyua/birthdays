@@ -10,6 +10,7 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
+
     @Value("${spring.mail.host}")
     private String host;
 
@@ -30,18 +31,22 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender getMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);
         mailSender.setUsername(username);
         mailSender.setPassword(password);
-        Properties properties = mailSender.getJavaMailProperties();
 
+        setupProperties(mailSender.getJavaMailProperties());
+
+        return mailSender;
+    }
+
+    private void setupProperties(Properties properties) {
         properties.setProperty("mail.transportprotocol", protocol);
         properties.setProperty("mail.debug", debug);
         properties.setProperty("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        return mailSender;
     }
 }
