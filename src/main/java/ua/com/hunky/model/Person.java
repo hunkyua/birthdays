@@ -40,6 +40,14 @@ public class Person {
     public Person() {
     }
 
+    public Person (Person person) {
+        this(person.getId(),
+                person.getName(),
+                person.getSurname(),
+                person.getEmail(),
+                person.getDateOfBirth());
+    }
+
     public Person(Long id, String name, String surname, String email, Date dateOfBirth) {
         this.id = id;
         this.name = name;
@@ -54,5 +62,9 @@ public class Person {
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.userID = userID;
+    }
+
+    public boolean isEmailAlreadyExists(String email) {
+        return this.email.equals(email) && !email.isBlank();
     }
 }
