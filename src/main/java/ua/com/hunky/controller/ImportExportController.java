@@ -41,9 +41,9 @@ public class ImportExportController {
     }
 
     @GetMapping("/exportPersons")
-    public ModelAndView exportPersons(@AuthenticationPrincipal User user) {
+    public ModelAndView exportPersons(@AuthenticationPrincipal User auth) {
         List<Person> persons =
-                repo.findAllByUserID(user.getId())
+                repo.findAllByUserID(auth.getId())
                     .stream()
                     .map(Person::new)
                     .collect(toList());
@@ -52,7 +52,7 @@ public class ImportExportController {
 
     @PostMapping("/importPersons")
     public String importPersons(@RequestParam MultipartFile file,
-                                @AuthenticationPrincipal User user,
+                                @AuthenticationPrincipal User auth,
                                 Map<String, Object> model) throws IOException {
         if (file.isEmpty()) {
             model.put("Error", "You didn't choose a file");
@@ -68,21 +68,21 @@ public class ImportExportController {
             return "exportImport";
         }
 
-        tryReadExcelFile(file, user, name);
+        tryReadExcelFile(file, auth, name);
         model.put("Alert", "Data successfully imported");
 
         return "exportImport";
     }
 
     private void tryReadExcelFile(@RequestParam MultipartFile input,
-                                  @AuthenticationPrincipal User user,
+                                  @AuthenticationPrincipal User auth,
                                   String name) throws IOException {
         File file = new File(name);
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(input.getBytes());
         }
 
-        ExcelReader reader = new ExcelReader(file, repo, user);
+        ExcelReader reader = new ExcelReader(file, repo, auth);
         reader.readExcelFile();
     }
 }
