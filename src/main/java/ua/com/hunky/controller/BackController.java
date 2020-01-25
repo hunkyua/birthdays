@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import ua.com.hunky.model.Role;
 import ua.com.hunky.model.User;
 
 @Controller
@@ -13,7 +14,7 @@ public class BackController {
 
     @GetMapping("/backFromListOfPersons")
     private String back(@AuthenticationPrincipal User user, Model model) {
-        if ("USER".equals(user.getRoles().iterator().next().name())) {
+        if (isUser(user)) {
             model.addAttribute("user", user);
             return "menu";
         }
@@ -22,7 +23,7 @@ public class BackController {
 
     @GetMapping("/backFromExportImport")
     private String backFromExportImport(@AuthenticationPrincipal User user, Model model) {
-        if ("USER".equals(user.getRoles().iterator().next().name())) {
+        if (isUser(user)) {
             model.addAttribute("user", user);
             return "menu";
         }
@@ -31,11 +32,15 @@ public class BackController {
 
     @GetMapping("/backFromImport")
     private String backFromImport(@AuthenticationPrincipal User user, Model model) {
-        if ("USER".equals(user.getRoles().iterator().next().name())) {
+        if (isUser(user)) {
             model.addAttribute("user", user);
             return "exportImport";
         }
         return "login";
+    }
+
+    private boolean isUser(@AuthenticationPrincipal User user) {
+        return (user.getRoles() != null) && user.getRoles().contains(Role.USER);
     }
 
 }
