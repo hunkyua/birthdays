@@ -15,18 +15,25 @@ import java.sql.Date;
 @Entity
 @Table(name = "persons")
 public class Person {
+
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "surname")
     private String surname;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "dateOfBirth")
     private Date dateOfBirth;
+
     @Column(name = "userId")
     private Long userID;
 
