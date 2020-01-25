@@ -7,7 +7,7 @@
 </head>
 <body>
 <p class="addPersonText">Fill the form for add a new Person</p>
-<form id="addPerson" th:action="@{/createperson}" method="post">
+<form id="addPerson" th:action="@{/createPerson}" method="post">
     <label>
         <input class="name" type="text" name="name" placeholder="Name" required />
     </label><br>
@@ -18,7 +18,7 @@
         <input class="email" type="text" name="email" placeholder="Email"/>
     </label><br>
     <label>
-        <input class="date" type="date" name="dateOfBirth" required/>
+        <input class="date" type="date" name="birthday" required/>
     </label><br><br>
     <input  class="button" type="submit" value="Create Person">
 </form>
