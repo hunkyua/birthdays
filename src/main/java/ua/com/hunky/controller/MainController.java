@@ -14,6 +14,7 @@ import java.util.Map;
 @Controller
 @SessionAttributes("user")
 public class MainController {
+
     private final UserRepo userRepo;
 
     public MainController(UserRepo userRepo) {
@@ -21,45 +22,58 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String enter(@AuthenticationPrincipal User user, Map<String, Object> model){
-        model.put("Error", "");
-        model.put("Alert", "");
-        if (user != null){
-            User userfromDb = userRepo.findByUsername(user.getUsername());
-            if (userfromDb != null) {
-                if (userfromDb.getActivationCode() != null) {
-                    model.put("Error", "User is not activated");
-                    return "login";
-                }
-                model.put("user", user);
-                return "menu";
-            }
+    public String enter(@AuthenticationPrincipal User auth, Map<String, Object> model) {
+
+        cleanWarnings(model);
+
+        if (auth == null) {
+            return "login";
         }
-        return "login";
+
+        User user = userRepo.findByUsername(auth.getUsername());
+
+        if (user == null) {
+            return "login";
+        }
+
+        if (user.getActivationCode() != null) {
+            model.put("Error", "User is not activated");
+            return "login";
+        }
+
+        model.put("user", auth);
+        return "menu";
+
     }
 
     @PostMapping("/")
-    public String login(@AuthenticationPrincipal User user, Map<String, Object> model){
+    public String login(@AuthenticationPrincipal User auth, Map<String, Object> model) {
+
+        cleanWarnings(model);
+
+        User user = userRepo.findByUsername(auth.getUsername());
+
+        return user == null ? "login" : "menu";
+
+    }
+
+    private void cleanWarnings(Map<String, Object> model) {
         model.put("Error", "");
         model.put("Alert", "");
-
-        User userFromDb = userRepo.findByUsername(user.getUsername());
-
-        if (userFromDb != null) {
-            return "menu";
-        }
-        return "login";
     }
 
     @GetMapping("/menu")
-    public String menu( Map<String, Object> model){
-        model.put("Error", "");
-        model.put("Alert", "");
+    public String menu(Map<String, Object> model) {
+        cleanWarnings(model);
         return "menu";
     }
 
     @PostMapping("/menu")
-    public String login(@RequestParam String login, @RequestParam String password, Map<String, Object> model) {
+    public String login(
+            @RequestParam String login,
+            @RequestParam String password,
+            Map<String, Object> model) {
+
         return "menu";
     }
 
