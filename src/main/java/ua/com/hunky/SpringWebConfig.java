@@ -21,15 +21,11 @@ import java.util.Locale;
 @Configuration
 public class SpringWebConfig implements WebMvcConfigurer {
 
-    public SpringWebConfig() {
-        super();
-    }
-
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
-        return lci;
+        return new LocaleChangeInterceptor(){{
+            setParamName("lang");
+        }};
     }
 
     @Override
@@ -39,57 +35,59 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Bean
     public ResourceBundleMessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
+        return new ResourceBundleMessageSource(){{
+            setBasename("messages");
+            setDefaultEncoding("UTF-8");
+        }};
 
+    }
 
     @Override
     public Validator getValidator() {
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource());
-        return validator;
+        return new LocalValidatorFactoryBean(){{
+            setValidationMessageSource(messageSource());
+        }};
     }
 
     @Bean
     public LocaleResolver localeResolver() {
-        SessionLocaleResolver resolver = new SessionLocaleResolver();
-        resolver.setDefaultLocale(Locale.ENGLISH);
-        return resolver;
+        return new SessionLocaleResolver(){{
+            setDefaultLocale(Locale.ENGLISH);
+        }};
     }
 
     @Bean
     public ITemplateResolver templateResolver() {
-        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setPrefix("classpath:/templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML5");
-        resolver.setCacheable(false);
-        return resolver;
+        return new SpringResourceTemplateResolver(){{
+            setPrefix("classpath:/templates/");
+            setSuffix(".html");
+            setTemplateMode("HTML5");
+            setCacheable(false);
+        }};
     }
 
     @Bean
     public SpringTemplateEngine templateEngine(){
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setEnableSpringELCompiler(true);
-        return templateEngine;
+        return new SpringTemplateEngine(){{
+            setTemplateResolver(templateResolver());
+            setEnableSpringELCompiler(true);
+        }};
     }
 
     @Bean
     public ThymeleafViewResolver viewResolver(){
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setOrder(1);
-        viewResolver.setViewNames(new String[] {".html", ".xhtml"});
-        return viewResolver;
+        return new ThymeleafViewResolver(){{
+            setTemplateEngine(templateEngine());
+            setOrder(1);
+            setViewNames(new String[] {".html", ".xhtml"});
+        }};
+
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login")
+                .setViewName("login");
     }
 
 }
