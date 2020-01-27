@@ -15,10 +15,10 @@ import java.util.Map;
 @SessionAttributes("user")
 public class MainController {
 
-    private final UserRepo userRepo;
+    private final UserRepo users;
 
-    public MainController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public MainController(UserRepo users) {
+        this.users = users;
     }
 
     @GetMapping("/")
@@ -30,7 +30,7 @@ public class MainController {
             return "login";
         }
 
-        User user = userRepo.findByUsername(auth.getUsername());
+        User user = users.findByUsername(auth.getUsername());
 
         if (user == null) {
             return "login";
@@ -51,7 +51,7 @@ public class MainController {
 
         cleanWarnings(model);
 
-        User user = userRepo.findByUsername(auth.getUsername());
+        User user = users.findByUsername(auth.getUsername());
 
         return user == null ? "login" : "menu";
 
