@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+
     private final UserService userService;
 
     public RegistrationController(UserService userService) {
@@ -26,7 +27,9 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     private String addUser(User user, Map<String, Object> model) {
-        if (!userService.addUser(user)) {
+        boolean success = userService.addUser(user);
+
+        if (!success) {
             model.put("Error", "User " + user.getUsername() + " already exists!");
             return "registration";
         }
@@ -36,16 +39,17 @@ public class RegistrationController {
     }
 
     @GetMapping("/activate/{code}")
-    public String activate(Model model, @PathVariable String code) {
-        boolean isActivated = userService.activateUser(code);
+    public String activate(@PathVariable String code, Model model) {
+        boolean success = userService.activateUser(code);
 
-        if (isActivated) {
-            model.addAttribute("Alert", "User successfully activated");
-        } else {
+        if (!success) {
             model.addAttribute("Error", "Activation code is not found");
+            return "login";
         }
 
+        model.addAttribute("Alert", "User successfully activated");
         return "login";
+
     }
 
 
