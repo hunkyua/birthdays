@@ -8,20 +8,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MailSender {
+
     @Autowired
     private JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
     private String username;
 
-    public void send(String emailTo, String subject, String message) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
+    public void send(String emailTo, String subject, String data) {
+        SimpleMailMessage message = new SimpleMailMessage();
 
-        mailMessage.setFrom(username);
-        mailMessage.setTo(emailTo);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
+        message.setFrom(username);
+        message.setTo(emailTo);
+        message.setSubject(subject);
+        message.setText(data);
 
-        mailSender.send(mailMessage);
+        mailSender.send(message);
     }
 }
