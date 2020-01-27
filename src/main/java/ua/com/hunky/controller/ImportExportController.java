@@ -82,7 +82,7 @@ public class ImportExportController {
             output.write(input.getBytes());
         }
 
-        ExcelReader reader = new ExcelReader(file, repo, auth);
-        reader.readExcelFile();
+        ExcelReader reader = new ExcelReader(file, repo);
+        reader.readExcelFile(auth);
     }
 }
