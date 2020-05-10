@@ -1,14 +1,17 @@
 package ua.com.hunky.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ua.com.hunky.model.User;
 import ua.com.hunky.repository.UserRepo;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
@@ -22,7 +25,9 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String enter(@AuthenticationPrincipal User auth, Map<String, Object> model) {
+    public String enter(
+            @AuthenticationPrincipal User auth,
+            Map<String, Object> model) {
 
         cleanWarnings(model);
 
@@ -47,7 +52,9 @@ public class MainController {
     }
 
     @PostMapping("/")
-    public String login(@AuthenticationPrincipal User auth, Map<String, Object> model) {
+    public String login(
+            @AuthenticationPrincipal User auth,
+            Map<String, Object> model) {
 
         cleanWarnings(model);
 
@@ -64,17 +71,41 @@ public class MainController {
 
     @GetMapping("/menu")
     public String menu(Map<String, Object> model) {
+
         cleanWarnings(model);
         return "menu";
     }
 
     @PostMapping("/menu")
-    public String login(
-            @RequestParam String login,
-            @RequestParam String password,
+    public String login() {
+        return "menu";
+    }
+
+    @GetMapping("/login")
+    public String loginError(
+            @AuthenticationPrincipal User auth,
             Map<String, Object> model) {
 
+        cleanWarnings(model);
+
+        if (auth == null) {
+            model.put("Error", "User is not exist. Or you entered wrong password");
+            return "login";
+        }
+
         return "menu";
+    }
+
+    @GetMapping("/logout")
+    public String getLogoutPage(HttpServletRequest request, HttpServletResponse response){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+
+        return "redirect:/";
     }
 
 
