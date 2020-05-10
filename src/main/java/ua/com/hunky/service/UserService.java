@@ -1,6 +1,7 @@
 package ua.com.hunky.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +22,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     MailSender mail;
+
+    @Value("${hostname}")
+    private String hostname;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,14 +54,15 @@ public class UserService implements UserDetailsService {
         String message = String.format(
 
         "Hello, %s, \n" +
-        "Thanks for joining BirthdaysApp! Please confirm your email address and activate your account by clicking this link: \n\n" +
-        "http://localhost:8080/activate/%s \n\n" +
+        "Thanks for joining Birthdays! Please confirm your email address and activate your account by clicking this link: \n\n" +
+        "http://%s/activate/%s \n\n" +
         "If you have any trouble with your account, you can always email us at birthdaysapp.ua@gmail.com.\n" +
         "Regards, \n" +
-        "The BirthdaysApp team. \n" +
-        "If you didn't register for BirthdaysApp, please ignore this message."  ,
+        "The Birthdays team. \n" +
+        "If you didn't register for Birthdays, please ignore this message."  ,
 
                 user.getUsername(),
+                hostname,
                 user.getActivationCode()
         );
         mail.send(user.getEmail(), "Activation code", message);
