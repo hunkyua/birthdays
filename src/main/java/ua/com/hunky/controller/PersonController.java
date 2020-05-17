@@ -2,10 +2,7 @@ package ua.com.hunky.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import ua.com.hunky.model.Person;
 import ua.com.hunky.model.User;
 import ua.com.hunky.repository.PersonRepo;
@@ -23,6 +20,11 @@ public class PersonController {
 
     public PersonController(PersonRepo personRepo) {
         this.personRepo = personRepo;
+    }
+
+    @GetMapping("/addperson")
+    private String moveToAddPerson() {
+        return "addPerson";
     }
 
     @PostMapping("/createPerson")
@@ -59,6 +61,80 @@ public class PersonController {
         return "addPerson";
     }
 
+    @GetMapping("/listofpersons")
+    private String listOfPersons(@AuthenticationPrincipal User auth, Map<String, Object> model) {
+        List<Person> persons = personRepo.findAllByUserID(auth.getId());
+
+        model.put("persons", persons.listIterator());
+        return "listOfPersons";
+    }
+
+    @PostMapping("/removePersons")
+    private String removePersons(@RequestParam(value = "isChecked", required = false) List<Long> ids) {
+        if (ids == null) {
+            return "redirect:listofpersons";
+        }
+
+        ids.stream()
+                .map(personRepo::findPersonById)
+                .filter(Objects::nonNull)
+                .forEach(personRepo::delete);
+
+        return "redirect:listofpersons";
+    }
+
+    @PostMapping("/editPerson")
+    private String moveToEditPerson(@RequestParam(value = "isChecked", required = false) Long id,
+                                    Map<String, Object> model) {
+        Person currentPerson = personRepo.findPersonById(id);
+
+        model.put("person", currentPerson);
+        return "editPerson";
+    }
+
+    @PostMapping("/savePerson")
+    private String savePerson(@AuthenticationPrincipal User auth,
+                                @RequestParam String name,
+                                @RequestParam String surname,
+                                @RequestParam String email,
+                                @RequestParam Date dateOfBirth,
+                                Person previousPerson,
+                                Map<String, Object> model) {
+
+        Person person = personRepo.findPersonById(previousPerson.getId());
+
+        if (dateOfBirth == null) {
+            return "editPerson";
+        }
+
+        List<Person> persons = personRepo.findAllByUserID(auth.getId());
+
+        if (!isEmailPreviousPerson(person, email) && isEmailAlreadyExists(persons, email)) {
+            model.put("Error", "Email \"" + email + "\" already exist");
+            return "/editPerson";
+        }
+
+        Date sqlDate = new Date(dateOfBirth.getTime());
+
+        if (!isValid(sqlDate)) {
+            model.put("Error", "Wrong data inside field \"Date of birth\"");
+            return "editPerson";
+        }
+
+        person.setName(name);
+        person.setSurname(surname);
+        person.setEmail(email);
+        person.setDateOfBirth(dateOfBirth);
+        personRepo.save(person);
+
+        return "redirect:listofpersons";
+    }
+
+    private boolean isEmailPreviousPerson(Person person, String email) {
+        return person.getEmail().equals(email);
+    }
+
+
     private boolean isEmailAlreadyExists(List<Person> persons, String email) {
         return persons.stream()
                 .anyMatch(p -> p.isEmailAlreadyExists(email));
@@ -87,33 +163,6 @@ public class PersonController {
 
         return value.replaceAll("<", "&lt;")
                 .replaceAll(">", "&gt;");
-    }
-
-    @GetMapping("/addperson")
-    private String moveToAddPerson() {
-        return "addPerson";
-    }
-
-    @GetMapping("/listofpersons")
-    private String listOfPersons(@AuthenticationPrincipal User auth, Map<String, Object> model) {
-        List<Person> persons = personRepo.findAllByUserID(auth.getId());
-
-        model.put("persons", persons.listIterator());
-        return "listOfPersons";
-    }
-
-    @PostMapping("/removePersons")
-    private String removePersons(@RequestParam(value = "isChecked", required = false) List<Long> ids) {
-        if (ids == null) {
-            return "redirect:listofpersons";
-        }
-
-        ids.stream()
-                .map(personRepo::findPersonById)
-                .filter(Objects::nonNull)
-                .forEach(personRepo::delete);
-
-        return "redirect:listofpersons";
     }
 
 }

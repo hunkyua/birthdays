@@ -7,13 +7,15 @@
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
     <script type="text/javascript" th:src="@{/js/selectPerson.js}"></script>
     <script type="text/javascript" th:src="@{/js/showHideRemoveButton.js}"></script>
+    <script type="text/javascript" th:src="@{/js/showHideEditButton.js}"></script>
 </head>
 <body>
 <div>
 <a th:href="@{addperson}"><button class="button">Add Person</button></a>
-<a><button type="submit" form="persons" id="removeButton" class="button">Remove</button></a>
+<a><button type="submit" form="persons" id="editButton" class="button" value="edit" onclick="return OnButton1()">Edit</button></a>
+<a><button type="submit" form="persons" id="removeButton" class="button" value="remove" onclick="return OnButton2()">Remove</button></a>
 </div>
-<form id="persons" th:action="@{removePersons}" method="post">
+<form name="Persons" id="persons" th:action="@{#}" method="post">
 <table id="personTable" class="persons">
     <tr>
         <th></th>
