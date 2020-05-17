@@ -1,15 +1,16 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import ua.com.hunky.model.User;
 import ua.com.hunky.repository.UserRepo;
+import ua.com.hunky.service.Messages;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -19,6 +20,9 @@ import java.util.Map;
 public class MainController {
 
     private final UserRepo users;
+
+    @Autowired
+    private Messages messages;
 
     public MainController(UserRepo users) {
         this.users = users;
@@ -42,7 +46,7 @@ public class MainController {
         }
 
         if (user.getActivationCode() != null) {
-            model.put("Error", "User is not activated");
+            model.put("Error", messages.get("error.user.UserIsNotActivated"));
             return "login";
         }
 
@@ -89,7 +93,7 @@ public class MainController {
         cleanWarnings(model);
 
         if (auth == null) {
-            model.put("Error", "User is not exist. Or you entered wrong password");
+            model.put("Error", messages.get("error.user.UserNotExistsOrWrongPassword"));
             return "login";
         }
 

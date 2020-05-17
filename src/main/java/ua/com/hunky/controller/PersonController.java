@@ -1,11 +1,13 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.hunky.model.Person;
 import ua.com.hunky.model.User;
 import ua.com.hunky.repository.PersonRepo;
+import ua.com.hunky.service.Messages;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -14,9 +16,13 @@ import java.util.*;
 @Controller
 @SessionAttributes("user")
 public class PersonController {
+
     private static final java.util.Date THE_BEGINNING = new GregorianCalendar(1920, Calendar.JANUARY, 1).getTime();
     public static final SimpleDateFormat DATE = new SimpleDateFormat("yyyy/MM/dd");
     private final PersonRepo personRepo;
+
+    @Autowired
+    private Messages messages;
 
     public PersonController(PersonRepo personRepo) {
         this.personRepo = personRepo;
@@ -50,13 +56,13 @@ public class PersonController {
         Date sqlDate = new Date(birthday.getTime());
 
         if (!isValid(sqlDate)) {
-            model.put("Error", "Wrong data inside field \"Date of birth\"");
+            model.put("Error", messages.get("error.user.WrongDataInsideFieldDateOfBirth"));
             return "addPerson";
         }
 
         Person newPerson = new Person(parse(name), parse(surname), email, birthday, auth.getId());
         personRepo.save(newPerson);
-        model.put("Alert", "Person " + name + " successfully created");
+        model.put("Alert", messages.get("error.user.PersonSuccessfullyCreated", name));
 
         return "addPerson";
     }
@@ -110,14 +116,14 @@ public class PersonController {
         List<Person> persons = personRepo.findAllByUserID(auth.getId());
 
         if (!isEmailPreviousPerson(person, email) && isEmailAlreadyExists(persons, email)) {
-            model.put("Error", "Email \"" + email + "\" already exist");
+            model.put("Error", messages.get("error.user.EmailAlreadyExists", email));
             return "/editPerson";
         }
 
         Date sqlDate = new Date(dateOfBirth.getTime());
 
         if (!isValid(sqlDate)) {
-            model.put("Error", "Wrong data inside field \"Date of birth\"");
+            model.put("Error", messages.get("error.user.WrongDataInsideFieldDateOfBirth"));
             return "editPerson";
         }
 

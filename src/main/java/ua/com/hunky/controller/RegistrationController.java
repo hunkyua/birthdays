@@ -1,11 +1,11 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.com.hunky.model.User;
+import ua.com.hunky.service.Messages;
 import ua.com.hunky.service.UserService;
 
 import java.util.Map;
@@ -15,6 +15,9 @@ import java.util.Map;
 public class RegistrationController {
 
     private final UserService userService;
+
+    @Autowired
+    private Messages messages;
 
     public RegistrationController(UserService userService) {
         this.userService = userService;
@@ -30,11 +33,11 @@ public class RegistrationController {
         boolean success = userService.addUser(user);
 
         if (!success) {
-            model.put("Error", "User " + user.getUsername() + " already exists!");
+            model.put("Error", messages.get("error.user.UserAlreadyExists", user.getUsername()));
             return "registration";
         }
 
-        model.put("Alert", "User " + user.getUsername() + " was added");
+        model.put("Alert", messages.get("error.user.UserWasAdded", user.getUsername()));
         return "redirect:/login";
     }
 
@@ -43,11 +46,11 @@ public class RegistrationController {
         boolean success = userService.activateUser(code);
 
         if (!success) {
-            model.addAttribute("Error", "Activation code is not found");
+            model.addAttribute("Error", messages.get("error.user.ActivationCodeIsNotFound"));
             return "login";
         }
 
-        model.addAttribute("Alert", "User successfully activated");
+        model.addAttribute("Alert", messages.get("error.user.UserSuccessfullyActivated"));
         return "login";
 
     }

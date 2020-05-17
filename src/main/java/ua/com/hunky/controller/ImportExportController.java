@@ -1,10 +1,9 @@
 package ua.com.hunky.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.hunky.model.Person;
@@ -12,6 +11,7 @@ import ua.com.hunky.model.User;
 import ua.com.hunky.repository.PersonRepo;
 import ua.com.hunky.service.ExcelPersonExportAndImport;
 import ua.com.hunky.service.ExcelReader;
+import ua.com.hunky.service.Messages;
 
 import javax.servlet.annotation.MultipartConfig;
 import java.io.File;
@@ -30,6 +30,9 @@ public class ImportExportController {
 
     static final int MEGA = 1024 * 1024;
     private final PersonRepo repo;
+
+    @Autowired
+    private Messages messages;
 
     public ImportExportController(PersonRepo repo) {
         this.repo = repo;
@@ -55,7 +58,7 @@ public class ImportExportController {
                                 @AuthenticationPrincipal User auth,
                                 Map<String, Object> model) throws IOException {
         if (file.isEmpty()) {
-            model.put("Error", "You didn't choose a file");
+            model.put("Error", messages.get("error.user.ChooseFileForImport"));
             return "exportImport";
         }
 
@@ -64,12 +67,12 @@ public class ImportExportController {
         boolean isExcelFile = name.contains(".xls") || name.contains(".xlsx");
 
         if (!isExcelFile) {
-            model.put("Error", "Only .xls and .xlsx files available");
+            model.put("Error", messages.get("error.user.OnlyXlsAndXlsxFilesAvailable"));
             return "exportImport";
         }
 
         tryReadExcelFile(file, auth, name);
-        model.put("Alert", "Data successfully imported");
+        model.put("Alert", messages.get("error.user.DataSuccessfullyImported"));
 
         return "exportImport";
     }
