@@ -242,7 +242,7 @@ footer {
 
 /* === Registration in Form === */
 #registration {
-    height: 90px;
+    height: auto;
     width: 300px;
     border-radius: 8px;
     position: relative;
@@ -360,14 +360,13 @@ tr.highlight td {
     background-color: #a5cc9f;
 }
 
-
 #removeButton {
     display: none;
 }
 
-
-
-
+#editButton {
+    display: none;
+}
 
 #import input[type="submit"] {
     border-top-left-radius: 75px;

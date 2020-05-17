@@ -18,8 +18,10 @@
         <input type="email" id="email" name="email" th:placeholder="#{index.email}" required/>
         <button type="submit">&#xf0da;</button>
     </form>
+    <div id="messages">
     <p class="error" th:text="${Error}"></p>
     <p class="alert" th:text="${Alert}"></p>
+    </div>
     <br><br>
     <div class="back">
         <a th:href="@{/}">
