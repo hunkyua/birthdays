@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Birthdays</title>
+    <title th:text="#{title}"></title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/script.js}"></script>
@@ -11,19 +11,19 @@
 </head>
 <body>
 <div>
-<a th:href="@{addperson}"><button class="button">Add Person</button></a>
-<a><button type="submit" form="persons" id="editButton" class="button" value="edit" onclick="return OnButton1()">Edit</button></a>
-<a><button type="submit" form="persons" id="removeButton" class="button" value="remove" onclick="return OnButton2()">Remove</button></a>
+<a th:href="@{addperson}"><button class="button" th:text="#{button.Add}"></button></a>
+<a><button type="submit" form="persons" id="editButton" class="button" value="edit" onclick="return OnButton1()" th:text="#{button.Edit}"></button></a>
+<a><button type="submit" form="persons" id="removeButton" class="button" value="remove" onclick="return OnButton2()" th:text="#{button.Remove}"></button></a>
 </div>
 <form name="Persons" id="persons" th:action="@{#}" method="post">
 <table id="personTable" class="persons">
     <tr>
         <th></th>
         <th>&#8470;</th>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Email</th>
-        <th>DateOfBirth</th>
+        <th th:text="#{listOfPersons.Name}"></th>
+        <th th:text="#{listOfPersons.Surname}"></th>
+        <th th:text="#{listOfPersons.Email}"></th>
+        <th th:text="#{listOfPersons.DateOfBirth}"></th>
     </tr>
     <tr id="trs" th:each="person,iter  : ${persons}">
         <td style="width: 2%"><input type="checkbox" id="personCheckbox" name="isChecked" th:value="${person.id}"/></td>
@@ -38,7 +38,7 @@
 <br><br><br>
 <div class="back">
     <a th:href="@{backFromListOfPersons}">
-        <button class="button">Go Back</button>
+        <button class="button" th:text="#{button.Back}"></button>
     </a>
 </div>
 </body>

@@ -2,25 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title th:text="#{index.title}"></title>
+    <title th:text="#{title}"></title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/localization.js}"></script>
 </head>
 <body class="login">
-
 <a class="en" href="?lang=en" methods="get" th:text="#{lang.eng}"></a>
 <a class="ru" href="?lang=ru" methods="get" th:text="#{lang.ru}"></a>
-
     <div id="wrapper">
-        <h1 th:text="#{index.appNaming}"></h1>
+        <h1 th:text="#{index.AppNaming}"></h1>
         <form id="signin" th:action="@{/login}" th:method="post" autocomplete="off">
-            <input type="text" id="login" name="username" th:placeholder="#{index.username}" required/>
-            <input type="password" id="password" name="password" th:placeholder="#{index.password}" required/>
+            <input type="text" id="login" name="username" th:placeholder="#{index.Username}" required/>
+            <input type="password" id="password" name="password" th:placeholder="#{index.Password}" required/>
             <button type="submit">&#xf0da;</button>
             <div>
-                <span th:text="#{index.dontHaveAnAccount}"></span>
-                <a th:href="@{/registration}" th:text="#{index.clickHere}">Click here</a>
+                <span th:text="#{index.DontHaveAnAccount}"></span>
+                <a th:href="@{/registration}" th:text="#{index.ClickHere}"></a>
             </div>
             <p class="error" th:text="${Error}"></p>
             <p class="alert" th:text="${Alert}"></p>

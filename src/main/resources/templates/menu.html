@@ -1,20 +1,20 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Birthdays</title>
+    <title th:text="#{title}"></title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body class="menu">
-<h1 th:text="'Hello ' + ${user != null?user.getUsername():''}"></h1>
+<h1 th:text="#{welcome} + ' ' + ${user != null ? user.getUsername() : ''}"></h1>
 <div class="menu">
-    <a th:href="@{listofpersons}"><button class="button">List of Persons</button></a>
+    <a th:href="@{listofpersons}"><button class="button" th:text="#{menu.ListOfPersons}"></button></a>
     <br>
-    <a th:href="@{exportImport}"><button class="button">Export/Import</button></a>
+    <a th:href="@{exportImport}"><button class="button" th:text="#{menu.ExportImport}">></button></a>
     <br>
     <br>
     <br>
     <form th:action="@{/logout}" method="get">
-        <button class="button" th:type="submit">Logout</button>
+        <button class="button" th:type="submit" th:text="#{button.Logout}"></button>
     </form>
 </div>
 </body>
