@@ -24,7 +24,7 @@ public class Scheduler {
     private MailSender mailSender;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 10 * * *")
     public void reportCurrentTime() {
         List <User> allUsers = users.findAll();
         List <Person> allPersons = new ArrayList<>();
