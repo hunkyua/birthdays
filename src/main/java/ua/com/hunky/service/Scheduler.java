@@ -31,7 +31,9 @@ public class Scheduler {
         for (User user : allUsers) {
             allPersons.addAll(personRepo.findAllByUserID(user.getId()));
             for (Person person : allPersons) {
-                if (person.getDateOfBirth().toString().equals(dateFormat.format(new Date()))){
+
+                //TODO fix this *******
+                if (person.getDateOfBirth().toString().subSequence(5,10).equals(dateFormat.format(new Date()).subSequence(5,10))){
                     System.out.println(person.getDateOfBirth());
                     mailSender.send(user.getEmail(),
                                     "День Рождение у " + person.getName() + " " + person.getSurname(),
