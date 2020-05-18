@@ -24,7 +24,7 @@ public class Scheduler {
     private MailSender mailSender;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
-    @Scheduled(cron = "0 10 * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     public void reportCurrentTime() {
         List <User> allUsers = users.findAll();
         List <Person> allPersons = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Scheduler {
                 if (person.getDateOfBirth().toString().equals(dateFormat.format(new Date()))){
                     System.out.println(person.getDateOfBirth());
                     mailSender.send(user.getEmail(),
-                                    "ОтХепибезей Друга " + person.getName() + person.getSurname(),
+                                    "День Рождение у " + person.getName() + " " + person.getSurname(),
                                     "Сегодня День Рождение у твоего друга " + person.getName()  + " " + person.getSurname());
                 }
             }
