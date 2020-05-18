@@ -72,6 +72,12 @@ p.error {
     border-bottom-right-radius: 75px;
     border-bottom-left-radius: 75px;
 }
+#editPerson input[type="text"], #editPerson input[type="submit"], #editPerson input[type="date"]{
+    border-top-left-radius: 75px;
+    border-top-right-radius: 75px;
+    border-bottom-right-radius: 75px;
+    border-bottom-left-radius: 75px;
+}
 
 #wrapper{
     position: absolute;
