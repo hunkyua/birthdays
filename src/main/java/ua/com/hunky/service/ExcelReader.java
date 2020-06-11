@@ -81,7 +81,8 @@ public class ExcelReader {
     }
 
     private java.sql.Date getDate(Cell cell) throws ParseException {
-        return new Date(PersonController.DATE.parse(cell.getStringCellValue()).getTime());
+        String date = cell.getLocalDateTimeCellValue().toString().substring(0, 10).replace("-", "/");
+        return new Date(PersonController.DATE.parse(date).getTime());
     }
 
 }
