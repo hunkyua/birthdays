@@ -65,9 +65,9 @@ public class Person {
     }
 
     public boolean isEmailAlreadyExists(String email) {
-        if (this.email != null ) {
-            return this.email.equals(email) && !email.isBlank();
+        if (this.email == null ) {
+            return false;
         }
-        return false;
+        return this.email.equals(email) && !email.isBlank();
     }
 }

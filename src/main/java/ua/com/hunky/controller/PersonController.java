@@ -137,6 +137,9 @@ public class PersonController {
     }
 
     private boolean isEmailPreviousPerson(Person person, String email) {
+        if (person.getEmail() == null) {
+            return false;
+        }
         return person.getEmail().equals(email);
     }
 
