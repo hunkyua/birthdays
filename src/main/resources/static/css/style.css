@@ -551,3 +551,30 @@ tr.highlight td {
     width: 50%;
 
 }
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #9acd32 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #9acd32 !important;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    padding: 10px 18px;
+    border-bottom: none;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0.5em;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+}
+
+.dataTables_wrapper {
+    position: relative;
+    clear: both;
+    *zoom: 1;
+    zoom: 1;
+    margin-top: 2px;
+}

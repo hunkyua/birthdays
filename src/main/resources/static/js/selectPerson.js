@@ -1,6 +1,6 @@
 $(function() {
     $('#personTable').on('click', 'tr', function(event) {
-        if(this.className !== 'highlight') {
+        if(!this.className.includes('highlight')) {
             $(this).addClass('highlight');
             var checkbox  = $(this).find(":checkbox")
             checkbox[0].checked = true;
