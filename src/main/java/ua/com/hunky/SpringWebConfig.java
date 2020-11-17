@@ -60,7 +60,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
         return new SpringResourceTemplateResolver() {{
             setPrefix("classpath:/templates/");
             setSuffix(".html");
-            setTemplateMode("HTML5");
+            setTemplateMode("HTML");
             setCacheable(false);
         }};
     }

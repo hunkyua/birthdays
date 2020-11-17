@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @Column(name = "active")
     private boolean active;
 
+    @Column(name = "chatID")
+    private Long chatID;
+
     private String email;
 
     private String activationCode;
