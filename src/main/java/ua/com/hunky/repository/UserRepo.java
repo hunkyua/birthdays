@@ -9,6 +9,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     User findByActivationCode(String code);
 
-    User findByChatID(Long chatID);
+    User findByChatIDAndUsernameAndPassword(Long chatID, String username, String password);
 
 }

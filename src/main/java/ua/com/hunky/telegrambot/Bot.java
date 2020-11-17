@@ -222,8 +222,11 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private String getTodayBirthdays(Message message) {
-        if (isUserWithChatIDExist(message)) {
+        if (isUserWithChatIDExist(message) && isDataNotEmpty()) {
             List<Person> persons = getPersons(message);
+            if (persons == null) {
+                return "You aren't authorised";
+            }
             List<Person> filteredPersons = persons.stream().filter(p ->
                     p.getDateOfBirth().toString().subSequence(5, 10).equals(dateFormat.format(new Date()).subSequence(5, 10))).collect(Collectors.toList());
             if (filteredPersons.size() == 0) {
@@ -279,7 +282,12 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private List<Person> getPersons(Message message) {
-        return personRepo.findAllByUserID(userRepo.findByChatID(message.getChatId()).getId());
+        User user = userRepo.findByChatIDAndUsernameAndPassword(message.getChatId(), login, password);
+        if (user != null) {
+            return personRepo.findAllByUserID(user.getId());
+        } else {
+            return null;
+        }
     }
 
 }
