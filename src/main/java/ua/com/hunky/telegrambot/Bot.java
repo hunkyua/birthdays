@@ -197,13 +197,7 @@ public class Bot extends TelegramLongPollingBot {
 
     private boolean isUserWithChatIDExist(Message message) {
         List<User> allUsers = userRepo.findAll();
-        for (User user : allUsers){
-            if (user.getChatID() != null) {
-                return user.getChatID().equals(message.getChatId());
-            }
-        }
-
-        return false;
+        return allUsers.stream().anyMatch(u -> u.getChatID() != null && u.getChatID().equals(message.getChatId()));
     }
 
     private boolean isLoginAndPasswordCorrect(Message message) {
