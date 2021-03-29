@@ -98,7 +98,6 @@ public class Bot extends TelegramLongPollingBot {
                     break;
                 case "/changelogin":
                     String login = getParameter(message);
-
                     if (login != null && !login.isBlank()) {
                         this.login = login;
                         setChatIDToUser(message);
@@ -129,14 +128,27 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void setChatIDToUser(Message message) {
-        if (isLoginAndPasswordCorrect(message)) {
-            User user = userRepo.findByUsername(login);
-            if (user.getChatID() == null || !user.getChatID().equals(message.getChatId())) {
-                user.setChatID(message.getChatId());
-                resetLoginPass();
+        if (isLoginAndPasswordCorrect(message) || !password.isEmpty() || !login.isEmpty()) {
+            List <User> usersWithTheSameChatID = findUserWithTheSameChatID(message.getChatId());
+            if (usersWithTheSameChatID != null) {
+                usersWithTheSameChatID.forEach(u -> {
+                    u.setChatID(null);
+                    userRepo.save(u);
+                });
             }
-            userRepo.save(user);
+            User user = userRepo.findByUsernameAndPassword(login, password);
+            if (user != null){
+                if (user.getChatID() == null || !user.getChatID().equals(message.getChatId())) {
+                    user.setChatID(message.getChatId());
+                    resetLoginPass();
+                }
+                userRepo.save(user);
+            }
         }
+    }
+
+    private List<User> findUserWithTheSameChatID(Long chatID) {
+        return userRepo.findAllByChatID(chatID);
     }
 
     private void resetLoginPass() {
@@ -201,7 +213,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private boolean isLoginAndPasswordCorrect(Message message) {
-        if (isDataNotEmpty() || isUserWithChatIDExist(message)) {
+        if (isDataNotEmpty()) {
             var user = userRepo.findByUsername(login);
             if (user != null) {
                 return user.getPassword().equals(password);
@@ -216,7 +228,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private String getTodayBirthdays(Message message) {
-        if (isUserWithChatIDExist(message) && isDataNotEmpty()) {
+        if (isUserWithChatIDExist(message)) {
             List<Person> persons = getPersons(message);
             if (persons == null) {
                 return "You aren't authorised";
@@ -239,6 +251,9 @@ public class Bot extends TelegramLongPollingBot {
     private String getMonthBirthdays(Message message) {
         if (isUserWithChatIDExist(message)) {
             List<Person> persons = getPersons(message);
+            if (persons == null) {
+                return "You aren't authorised";
+            }
             List<Person> filteredPersons = persons.stream().filter(p ->
                     p.getDateOfBirth().toLocalDate().getMonthValue() == Calendar.getInstance().get(Calendar.MONTH) + 1).collect(Collectors.toList());
             if (filteredPersons.size() == 0) {
@@ -276,7 +291,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private List<Person> getPersons(Message message) {
-        User user = userRepo.findByChatIDAndUsernameAndPassword(message.getChatId(), login, password);
+        User user = userRepo.findByChatID(message.getChatId());
         if (user != null) {
             return personRepo.findAllByUserID(user.getId());
         } else {
